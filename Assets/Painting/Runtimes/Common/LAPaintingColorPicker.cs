@@ -1,14 +1,20 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace LA.Painting
+namespace LA.Painting.Common
 {
     public class LAPaintingColorPicker : MonoBehaviour
     {
-        [Header("Manager")]
-        [SerializeField] private LAPaintingManager paintingManager;
+        [Header("Memebers")]
+        [SerializeField] private LAPaintingSampleColor sampleColor;
 
+        [Header("Control")]
+        [SerializeField] private GameObject container;
+        [SerializeField] private Button button_Open;
+
+        [Header("Common")]
         [SerializeField] private float currentHue;
         [SerializeField] private float currentSat;
         [SerializeField] private float currentVal;
@@ -24,6 +30,10 @@ namespace LA.Painting
         [SerializeField] private Button button_hexAccept;
 
         private Texture2D hueTexture, svTexture, outputTexture;
+
+        //Events
+        public event UnityAction<Color> OnChangedColor;
+        public event UnityAction OnOpen;
 
         private void Start()
         {
@@ -41,8 +51,16 @@ namespace LA.Painting
 
         private void AddListener()
         {
+            button_Open.onClick.AddListener(OnButtonOpenClicked);
             hueSlider.onValueChanged.AddListener(delegate { UpdateSVImage(); });
             button_hexAccept.onClick.AddListener(OnTexInput);
+        }
+
+        private void OnButtonOpenClicked()
+        {
+            container.SetActive(!container.activeSelf);
+
+            if (container.activeSelf) OnOpen?.Invoke();
         }
 
         private void CreateHueImage()
@@ -112,8 +130,8 @@ namespace LA.Painting
             outputTexture.Apply();
 
             hexInputField.text = ColorUtility.ToHtmlStringRGB (currentColor);
-
-            paintingManager.UpdateBrushColor(currentColor);
+            button_Open.image.color = currentColor;
+            OnChangedColor?.Invoke(currentColor);
         }
 
         public void SetSV(float S, float V)
@@ -153,6 +171,37 @@ namespace LA.Painting
             hexInputField.text = "";
 
             UpdateOutputImage();
+        }
+
+        public bool IsActivate => container.activeSelf;
+
+        public void Show()
+        {
+            container.SetActive(true);
+        }
+
+        public void Hide()
+        {
+            container.SetActive(false);
+        }
+
+        private void OnEnable()
+        {
+            sampleColor.OnGettedColorSample += SampleColor_OnGettedColorSample;
+        }
+
+        private void SampleColor_OnGettedColorSample(Color color)
+        {
+            Color.RGBToHSV(color, out currentHue, out currentSat, out currentVal);
+
+            hueSlider.value = currentHue;
+
+            UpdateOutputImage();
+        }
+
+        private void OnDisable()
+        {
+            sampleColor.OnGettedColorSample -= SampleColor_OnGettedColorSample;
         }
     }
 }

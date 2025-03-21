@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -10,35 +11,32 @@ namespace LA.Common.UI.Runtime
 
         [SerializeField] private DropdownItemDataHolder dropdownItemDataHolder;
 
-        private CustomDropdownScroll dropdownScroll;
+        [SerializeField] private CustomDropdownScroll dropdownScroll;
+
+        //Events
+        public event UnityAction<CustomDropdownItem> OnSelectionChange;
+        public event UnityAction OnDropdownClick;
 
         private void Start()
         {
-            Init();
             CreateDropdownItems();
             ApplyDefaultState();
         }
 
-        private void Init()
-        {
-            dropdownScroll = GetComponentInChildren<CustomDropdownScroll>();
-            dropdownScroll.onSubmitSelected += DropdownScroll_onSubmitSelected;
-        }
-
-        private void DropdownScroll_onSubmitSelected(CustomDropdownItem selectedItem)
-        {
-            DropdownItemData data = dropdownItemDataHolder.GetByArrId(selectedItem.id);
-            if (data == null) return;
-            image_Selected.sprite = data.sprite;
-
-            dropdownScroll.Hide();
-        }
-
         private void CreateDropdownItems()
         {
+            if (dropdownItemDataHolder == null) return;
+
             if (dropdownScroll == null) return;
 
             dropdownScroll.CreateDropdownItem(dropdownItemDataHolder.Datas);
+        }
+
+        public void CreateDropdownItems(DropdownItemData[] itemDatas)
+        {
+            if (dropdownScroll == null) return;
+
+            dropdownScroll.CreateDropdownItem(itemDatas);
         }
 
         private void ApplyDefaultState()
@@ -53,7 +51,37 @@ namespace LA.Common.UI.Runtime
                 if(!dropdownScroll.gameObject.activeSelf)
                     dropdownScroll.Show();
                 else dropdownScroll.Hide();
+                OnDropdownClick?.Invoke();
             }
+        }
+
+        public void Show()
+        {
+            dropdownScroll.Show();
+        }
+
+        public void Hide()
+        {
+            dropdownScroll.Hide();
+        }
+
+        private void OnEnable()
+        {
+            dropdownScroll.onSubmitSelected += DropdownScroll_onSubmitSelected;
+        }
+
+        private void DropdownScroll_onSubmitSelected(CustomDropdownItem selectedItem)
+        {
+            image_Selected.sprite = selectedItem.ItemData.sprite;
+
+            OnSelectionChange?.Invoke(selectedItem);
+
+            dropdownScroll.Hide();
+        }
+
+        private void OnDisable()
+        {
+            dropdownScroll.onSubmitSelected -= DropdownScroll_onSubmitSelected;
         }
     }
 }

@@ -27,7 +27,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BrushTex:
-        m_Texture: {fileID: 2800000, guid: f6d5845c7a856f244a6f481859114dce, type: 3}
+        m_Texture: {fileID: 2800000, guid: 220395c6b6c560c40bd920431b98ad38, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RenderTarget:
@@ -56,7 +60,7 @@ Material:
     - _AlphaToMask: 1
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
-    - _BrushSize: 48
+    - _BrushSize: 1
     - _CastShadows: 1
     - _Cull: 2
     - _DstBlend: 0
@@ -65,7 +69,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Rotation: 360
+    - _Rotation: 0
     - _SrcBlend: 1
     - _Surface: 0
     - _WorkflowMode: 1
@@ -73,8 +77,8 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
-    - _BrushColor: {r: 0, g: 0, b: 0, a: 1}
-    - _BrushPosition: {r: 0.65185535, g: 0.6853961, b: 0, a: 0}
+    - _BrushColor: {r: 0.38823536, g: 0.7960786, b: 0.9372549, a: 1}
+    - _BrushPosition: {r: 0.27765656, g: 0.99958074, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &1936790325793934901

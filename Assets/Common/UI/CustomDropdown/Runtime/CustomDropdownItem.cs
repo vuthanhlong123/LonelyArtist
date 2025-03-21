@@ -10,6 +10,7 @@ namespace LA.Common.UI.Runtime
         public int id { get; set; }
         [SerializeField] private Image image_Icon;
 
+        public DropdownItemData ItemData { get; set; }
         public event UnityAction<CustomDropdownItem> onSelected;
 
         public void OnPointerClick(PointerEventData eventData)
@@ -20,6 +21,7 @@ namespace LA.Common.UI.Runtime
         public virtual void SetValue(DropdownItemData data)
         {
             image_Icon.sprite = data.sprite;
+            ItemData = data;
         }
     }
 }

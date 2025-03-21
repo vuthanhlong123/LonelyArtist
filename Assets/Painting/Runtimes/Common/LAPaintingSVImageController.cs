@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace LA.Painting
+namespace LA.Painting.Common
 {
     public class LAPaintingSVImageController : MonoBehaviour, IDragHandler, IPointerClickHandler
     {
@@ -29,24 +29,6 @@ namespace LA.Painting
 
             float deltaX = rectTrans.sizeDelta.x * 0.5f;
             float deltaY = rectTrans.sizeDelta.y * 0.5f;
-
-            /*if (pos.x < -deltaX)
-            {
-                pos.x = -deltaX;
-            }
-            else if (pos.x > deltaX)
-            {
-                pos.x = deltaX;
-            }
-            
-            if(pos.y < -deltaY)
-            {
-                pos.y = -deltaY;
-            }
-            else if(pos.y > deltaY)
-            {
-                pos.y = deltaY;
-            }*/
 
             pos.x = Mathf.Clamp(pos.x, -deltaX, deltaX);
             pos.y = Mathf.Clamp(pos.y, -deltaY, deltaY);

@@ -1,15 +1,13 @@
-﻿using LA.Painting.UI;
-using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
-namespace LA.Painting
+namespace LA.Painting.Common
 {
     public class LAPaintingManager : MonoBehaviour
     {
 
         [Header("Members")]
         [SerializeField] private LAPaintingColorPicker colorPicker;
+        [SerializeField] private LAPaintingBrushController brushController;
 
         [Header("Properties")]
         public Material paintMaterial; // Material sử dụng Shader vẽ
@@ -38,7 +36,7 @@ namespace LA.Painting
             Graphics.Blit(baseTexture, renderTexture);
 
             // Gán RenderTexture vào Material
-            paintMaterial.SetTexture("_mainTex", renderTexture);
+            paintMaterial.SetTexture("_MainTex", renderTexture);
         }
 
         void Update()
@@ -61,6 +59,15 @@ namespace LA.Painting
                     //ConvertTexture2DToRenderTexture(texn, renderTexture);
                     loop++;
                     //SaveTexture(loop);
+                }
+            }
+            else
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                if (Physics.Raycast(ray, out RaycastHit hit))
+                {
+                    paintMaterial.SetVector("_BrushPosition", hit.textureCoord);
                 }
             }
         }
@@ -119,9 +126,86 @@ namespace LA.Painting
             Debug.Log("Texture saved at: " + path);
         }
 
+        private Texture2D SpriteToTexture2D(Sprite sprite)
+        {
+            Texture2D originalTexture = sprite.texture;
+
+            // Step 2 (Optional): Create a copy of the Texture2D
+            Texture2D copiedTexture = new Texture2D(originalTexture.width, originalTexture.height, TextureFormat.RGBA32, originalTexture.mipmapCount > 1);
+            copiedTexture.SetPixels(originalTexture.GetPixels());
+            copiedTexture.Apply();
+
+            return copiedTexture;
+        }
+
+        #region Painting Brush Updatable
         public void UpdateBrushColor(Color color)
         {
             paintMaterial.SetColor("_BrushColor", color);
+        }
+
+        public void UpdateBrushPatten(Texture2D pattern)
+        {
+            paintMaterial.SetTexture("_BrushTex", pattern);
+        }
+
+        public void UpdateBrushAngle(float angle)
+        {
+            paintMaterial.SetFloat("_Rotation", angle);
+        }
+
+        public void UpdateBrushSize(float size)
+        {
+            paintMaterial.SetFloat("_BrushSize", size);
+        }
+
+        public void UpdateBrushOpacity(float opacity)
+        {
+            paintMaterial.SetFloat("_Opacity", opacity);
+        }
+        #endregion
+
+        private void OnEnable()
+        {
+            colorPicker.OnChangedColor += ColorPicker_OnChangedColor;
+            brushController.OnSubmitChangedBrushPattern += BrushController_OnSubmitChangedBrushPattern;
+            brushController.OnSubmitChangedBrushSize += BrushController_OnSubmitChangedBrushSize;
+            brushController.OnSubmitChangedBrushRotation += BrushController_OnSubmitChangedBrushRotation;
+            brushController.OnSubmitChangedBrushOpacity += BrushController_OnSubmitChangedBrushOpacity;
+        }
+
+        private void ColorPicker_OnChangedColor(Color color)
+        {
+            UpdateBrushColor(color);
+        }
+
+        private void BrushController_OnSubmitChangedBrushPattern(Texture2D tex)
+        {
+            UpdateBrushPatten(tex);
+        }
+
+        private void BrushController_OnSubmitChangedBrushSize(float size)
+        {
+            UpdateBrushSize(size);
+        }
+
+        private void BrushController_OnSubmitChangedBrushRotation(float angle)
+        {
+            UpdateBrushAngle(angle);
+        }
+
+        private void BrushController_OnSubmitChangedBrushOpacity(float opacity)
+        {
+            UpdateBrushOpacity(opacity);
+        }
+
+        private void OnDisable()
+        {
+            colorPicker.OnChangedColor -= ColorPicker_OnChangedColor;
+            brushController.OnSubmitChangedBrushPattern -= BrushController_OnSubmitChangedBrushPattern;
+            brushController.OnSubmitChangedBrushSize -= BrushController_OnSubmitChangedBrushSize;
+            brushController.OnSubmitChangedBrushRotation -= BrushController_OnSubmitChangedBrushRotation;
+            brushController.OnSubmitChangedBrushOpacity -= BrushController_OnSubmitChangedBrushOpacity;
         }
     }
 }

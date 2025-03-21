@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace LA.Painting.UI
+namespace LA.Painting.Common
 {
     public class LAPaintingManagerUI : MonoBehaviour
     {
