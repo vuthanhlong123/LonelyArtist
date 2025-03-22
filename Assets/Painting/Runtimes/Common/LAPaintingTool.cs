@@ -1,11 +1,12 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace LA.Painting.Common
 {
     public enum ToolType
     {
+        Nothing,
         Painting,
+        ColorPicker,
         GetColorSample
     }
 
@@ -14,23 +15,20 @@ namespace LA.Painting.Common
         [SerializeField] private ToolType toolType;
         public ToolType ToolType => ToolType;
 
-        [SerializeField] private Button button_Activate;
-        [SerializeField] private Image image_HighLight;
+        [SerializeField] private GameObject toolContainer;
+        [SerializeField] private bool disableOnAwake;
 
         public bool isActivate;
 
-        protected virtual void Start()
+        private void Awake()
         {
-            if(button_Activate)
-                button_Activate.onClick.AddListener(OnButtonActivateClicked);
+            Activate(false);
         }
 
-        protected virtual void OnButtonActivateClicked()
+        public void Activate(bool state)
         {
-            isActivate = !isActivate;
-
-            if(image_HighLight)
-                image_HighLight.enabled = isActivate;
+            isActivate = state;
+            toolContainer.SetActive(isActivate);
         }
     }
 }

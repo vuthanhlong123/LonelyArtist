@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace LA.Painting.Common
 {
-    public class LAPaintingBrushController : MonoBehaviour
+    public class LAPaintingBrushController : LAPaintingTool
     {
         [Header("Data")]
         [SerializeField] private BrushPatternDataHolder brushPatternDataHolder;
@@ -20,6 +20,7 @@ namespace LA.Painting.Common
         [SerializeField] private Button button_BrushControlBoard;
         [SerializeField] private TextMeshProUGUI text_ButtonText;
         [SerializeField] private GameObject container_BrushControl;
+        [SerializeField] private GameObject container_brushPattern;
 
         [Header("Brush size")]
         [SerializeField] private Slider slider_BrushSize;
@@ -54,7 +55,9 @@ namespace LA.Painting.Common
             OnBrushOpacityChanged(slider_BrushOpacity);
 
             container_BrushControl.SetActive(false);
-            text_ButtonText.text = "<";
+            container_brushPattern.SetActive(false);
+
+            text_ButtonText.text = "+";
         }
 
         private void AddListener()
@@ -68,8 +71,9 @@ namespace LA.Painting.Common
         private void OnButtonBrushControlBoardClicked()
         {
             container_BrushControl.SetActive(!container_BrushControl.activeSelf);
+            container_brushPattern.SetActive(!container_brushPattern.activeSelf);
 
-            text_ButtonText.text = container_BrushControl.activeSelf ? ">" : "<";
+            text_ButtonText.text = container_BrushControl.activeSelf ? "-" : "+";
         }
 
         private void InitDefaultBrush()

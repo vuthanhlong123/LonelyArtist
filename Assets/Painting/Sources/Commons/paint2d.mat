@@ -77,8 +77,8 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
-    - _BrushColor: {r: 0.38823536, g: 0.7960786, b: 0.9372549, a: 1}
-    - _BrushPosition: {r: 0.27765656, g: 0.99958074, b: 0, a: 0}
+    - _BrushColor: {r: 1, g: 0.7470526, b: 0.086274505, a: 1}
+    - _BrushPosition: {r: 0.9785887, g: 0.9985004, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &1936790325793934901

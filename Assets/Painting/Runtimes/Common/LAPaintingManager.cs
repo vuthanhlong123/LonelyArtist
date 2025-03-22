@@ -4,10 +4,22 @@ namespace LA.Painting.Common
 {
     public class LAPaintingManager : MonoBehaviour
     {
-
         [Header("Members")]
-        [SerializeField] private LAPaintingColorPicker colorPicker;
-        [SerializeField] private LAPaintingBrushController brushController;
+        [Header("Manager")]
+        [SerializeField] private LAPaintingDataManager dataManager;
+
+        [Header("Tools")]
+        [SerializeField] private LAPaintingColorPicker colorPickerTool;
+        [SerializeField] private LAPaintingBrushController brushTool;
+        [SerializeField] private LAPaintingSampleColor sampleColorTool;
+
+        [Header("Tool Menu")]
+        [SerializeField] private LAPaintingToolMenu toolMenu;
+
+        [Header("Control Menu")]
+        [SerializeField] private LAPaintingControlMenu controlMenu;
+
+        private ToolType currentActivateTool = ToolType.Nothing;
 
         [Header("Properties")]
         public Material paintMaterial; // Material sử dụng Shader vẽ
@@ -16,9 +28,11 @@ namespace LA.Painting.Common
         public RenderTexture renderTexturePreview; // RenderTexture lưu trạng thái
 
         private RenderTexture renderTexture;
+        public RenderTexture GetRenderTex => renderTexture;
         private int loop;
 
         private Vector2 currentPos;
+        private bool isHasChange;
 
         void Start()
         {
@@ -27,6 +41,7 @@ namespace LA.Painting.Common
 
         private void Init()
         {
+
             // Tạo RenderTexture để lưu kết quả
             renderTexture = new RenderTexture(1024, 1024, 0);
             renderTexture.enableRandomWrite = true;
@@ -37,10 +52,17 @@ namespace LA.Painting.Common
 
             // Gán RenderTexture vào Material
             paintMaterial.SetTexture("_MainTex", renderTexture);
+            dataManager.SavePaintingState(renderTexture);
         }
 
         void Update()
         {
+            if (currentActivateTool != ToolType.Painting) 
+            { 
+                isHasChange = false;
+                return; 
+            }
+
             if (Input.GetMouseButton(0)) // Nhấp chuột trái
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -59,6 +81,7 @@ namespace LA.Painting.Common
                     //ConvertTexture2DToRenderTexture(texn, renderTexture);
                     loop++;
                     //SaveTexture(loop);
+                    isHasChange = true;
                 }
             }
             else
@@ -69,6 +92,12 @@ namespace LA.Painting.Common
                 {
                     paintMaterial.SetVector("_BrushPosition", hit.textureCoord);
                 }
+            }
+
+            if(Input.GetMouseButtonUp(0) && isHasChange)
+            {
+                dataManager.SavePaintingState(renderTexture);
+                isHasChange = false;
             }
         }
 
@@ -167,12 +196,58 @@ namespace LA.Painting.Common
 
         private void OnEnable()
         {
-            colorPicker.OnChangedColor += ColorPicker_OnChangedColor;
-            brushController.OnSubmitChangedBrushPattern += BrushController_OnSubmitChangedBrushPattern;
-            brushController.OnSubmitChangedBrushSize += BrushController_OnSubmitChangedBrushSize;
-            brushController.OnSubmitChangedBrushRotation += BrushController_OnSubmitChangedBrushRotation;
-            brushController.OnSubmitChangedBrushOpacity += BrushController_OnSubmitChangedBrushOpacity;
+            toolMenu.OnSubmitChangeTool += ToolMenu_OnSubmitChangeTool;
+            controlMenu.OnSubmitControlRequest += ControlMenu_OnSubmitControlRequest;
+            colorPickerTool.OnChangedColor += ColorPicker_OnChangedColor;
+
+            brushTool.OnSubmitChangedBrushPattern += BrushController_OnSubmitChangedBrushPattern;
+            brushTool.OnSubmitChangedBrushSize += BrushController_OnSubmitChangedBrushSize;
+            brushTool.OnSubmitChangedBrushRotation += BrushController_OnSubmitChangedBrushRotation;
+            brushTool.OnSubmitChangedBrushOpacity += BrushController_OnSubmitChangedBrushOpacity;
         }
+
+        //Painting control activation
+        #region Handling painting control (like undom ...)
+        private void ControlMenu_OnSubmitControlRequest(PaintingControlType type)
+        {
+            switch (type)
+            {
+                case PaintingControlType.Undo: dataManager.HandlingUndo(renderTexture); break;
+            }
+        }
+        #endregion
+
+        //Painting tool activation
+        #region Handling Tools (like brush pattern, color picker,...)
+        private void ToolMenu_OnSubmitChangeTool(ToolType toolType)
+        {
+            ActivateToolByType(toolType);
+        }
+
+        private void ActivateToolByType(ToolType type)
+        {
+            DeActivateTool(currentActivateTool);
+
+            switch (type)
+            {
+                case ToolType.ColorPicker: colorPickerTool.Activate(true); break;
+                case ToolType.Painting: brushTool.Activate(true); RenderTexture.active = renderTexture; break;
+                case ToolType.GetColorSample: sampleColorTool.Activate(true); break;
+            }
+
+            currentActivateTool = type;
+        }
+
+        private void DeActivateTool(ToolType type)
+        {
+            switch (type)
+            {
+                case ToolType.ColorPicker: colorPickerTool.Activate(false); break;
+                case ToolType.Painting: brushTool.Activate(false); break;
+                case ToolType.GetColorSample: sampleColorTool.Activate(false); break;
+            }
+        }
+        #endregion
 
         private void ColorPicker_OnChangedColor(Color color)
         {
@@ -201,11 +276,14 @@ namespace LA.Painting.Common
 
         private void OnDisable()
         {
-            colorPicker.OnChangedColor -= ColorPicker_OnChangedColor;
-            brushController.OnSubmitChangedBrushPattern -= BrushController_OnSubmitChangedBrushPattern;
-            brushController.OnSubmitChangedBrushSize -= BrushController_OnSubmitChangedBrushSize;
-            brushController.OnSubmitChangedBrushRotation -= BrushController_OnSubmitChangedBrushRotation;
-            brushController.OnSubmitChangedBrushOpacity -= BrushController_OnSubmitChangedBrushOpacity;
+            toolMenu.OnSubmitChangeTool -= ToolMenu_OnSubmitChangeTool;
+            controlMenu.OnSubmitControlRequest -= ControlMenu_OnSubmitControlRequest;
+            colorPickerTool.OnChangedColor -= ColorPicker_OnChangedColor;
+
+            brushTool.OnSubmitChangedBrushPattern -= BrushController_OnSubmitChangedBrushPattern;
+            brushTool.OnSubmitChangedBrushSize -= BrushController_OnSubmitChangedBrushSize;
+            brushTool.OnSubmitChangedBrushRotation -= BrushController_OnSubmitChangedBrushRotation;
+            brushTool.OnSubmitChangedBrushOpacity -= BrushController_OnSubmitChangedBrushOpacity;
         }
     }
 }

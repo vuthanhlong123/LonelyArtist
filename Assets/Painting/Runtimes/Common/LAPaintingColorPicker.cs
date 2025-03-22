@@ -5,14 +5,14 @@ using UnityEngine.UI;
 
 namespace LA.Painting.Common
 {
-    public class LAPaintingColorPicker : MonoBehaviour
+    public class LAPaintingColorPicker : LAPaintingTool
     {
         [Header("Memebers")]
         [SerializeField] private LAPaintingSampleColor sampleColor;
+        [SerializeField] private Image image_OutputImage;
 
         [Header("Control")]
         [SerializeField] private GameObject container;
-        [SerializeField] private Button button_Open;
 
         [Header("Common")]
         [SerializeField] private float currentHue;
@@ -51,7 +51,6 @@ namespace LA.Painting.Common
 
         private void AddListener()
         {
-            button_Open.onClick.AddListener(OnButtonOpenClicked);
             hueSlider.onValueChanged.AddListener(delegate { UpdateSVImage(); });
             button_hexAccept.onClick.AddListener(OnTexInput);
         }
@@ -130,8 +129,9 @@ namespace LA.Painting.Common
             outputTexture.Apply();
 
             hexInputField.text = ColorUtility.ToHtmlStringRGB (currentColor);
-            button_Open.image.color = currentColor;
             OnChangedColor?.Invoke(currentColor);
+
+            image_OutputImage.color = currentColor;
         }
 
         public void SetSV(float S, float V)
