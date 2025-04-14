@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Game.Runtimes.Characters
 {
-    public class Character : MonoBehaviour
+    public class Character : UnitCharacter
     {
         [Header("Memebers")]
         [SerializeField] private CharacterMotion motion;
@@ -11,8 +11,9 @@ namespace Game.Runtimes.Characters
         public CharacterMotion Motion => motion;
         public CharacterDriver Driver => driver;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             StartUp();
             motion.Awake();
             driver.Awake();
@@ -40,6 +41,8 @@ namespace Game.Runtimes.Characters
             motion.Update();
             driver.Update();
         }
+
+        
     }
 }
 

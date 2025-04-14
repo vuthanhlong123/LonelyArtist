@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24179b546d77241449858ce261a778fa, type: 3}
+  m_Name: Motion Run
+  m_EditorClassIdentifier: 
+  motionName: Run
+  moveSpeed: 12
+  animationDatas:
+  - name: Idle
+    animation: {fileID: 7400000, guid: 563dad6caf04d81419eb4d8035b201c2, type: 2}
+    threshold: 0
+    speed: 1
+  - name: Run slow
+    animation: {fileID: 7400000, guid: a18210cddacd9894f9ea5b78f8849a37, type: 2}
+    threshold: 0.5
+    speed: 1
+  - name: Run fast
+    animation: {fileID: 7400000, guid: 7d2bb0c671519a64dbfac43b5f5b90b3, type: 2}
+    threshold: 1
+    speed: 3

@@ -7,6 +7,7 @@ namespace Game.Runtimes.Characters
     {
         public float speed;
         public CharacterMotionType motion;
+        public string currentMotion;
         public Vector2 moveInput;
         public float movement => moveInput.magnitude;
     }

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24179b546d77241449858ce261a778fa, type: 3}
+  m_Name: Motion Walk
+  m_EditorClassIdentifier: 
+  motionName: Walk
+  moveSpeed: 1.5
+  animationDatas:
+  - name: Idle
+    animation: {fileID: 7400000, guid: 563dad6caf04d81419eb4d8035b201c2, type: 2}
+    threshold: 0
+    speed: 1
+  - name: Walk
+    animation: {fileID: 7400000, guid: a18210cddacd9894f9ea5b78f8849a37, type: 2}
+    threshold: 1
+    speed: 1

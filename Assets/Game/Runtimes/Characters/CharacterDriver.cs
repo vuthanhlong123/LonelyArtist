@@ -26,7 +26,16 @@ namespace Game.Runtimes.Characters
         public override void Update()
         {
             base.Update();
+            UpdateProperties();
             HandlingMovement();
+        }
+
+        private void UpdateProperties()
+        {
+            if(agent)
+            {
+                agent.speed = character.Motion.Speed;
+            }
         }
 
         private void HandlingMovement()
@@ -36,8 +45,10 @@ namespace Game.Runtimes.Characters
 
         private void HandlingMoveToDirection()
         {
-            if (inputData.moveInput.magnitude >0)
+            if (inputData.moveInput.magnitude > 0)
             {
+                Vector2 inputVector = inputData.moveInput;
+
                 moveDirection = character.gameObject.transform.position - cameraTrans.position;
                 moveDirection.y = 0;
 
@@ -45,7 +56,8 @@ namespace Game.Runtimes.Characters
                 moveDirection = moveDirection.normalized;
 
                 Vector3 movemonetRight = Vector3.Cross(moveDirection, Vector3.up);
-                Vector3 movementVector = moveDirection* inputData.moveInput.y + movemonetRight * -inputData.moveInput.x;
+                Vector3 movementVector = moveDirection* inputVector.y + movemonetRight * -inputVector.x;
+                if(movementVector.magnitude>1) movementVector = movementVector.normalized;
                 agent.velocity = movementVector * character.Motion.Speed;
             }
         }
