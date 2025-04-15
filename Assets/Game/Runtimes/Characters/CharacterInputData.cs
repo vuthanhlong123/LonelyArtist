@@ -9,7 +9,8 @@ namespace Game.Runtimes.Characters
         public CharacterMotionType motion;
         public string currentMotion;
         public Vector2 moveInput;
-        public float movement => moveInput.magnitude;
+        public Vector3 moveVelocity;
+        public float movement => moveVelocity.magnitude;
     }
 }
 

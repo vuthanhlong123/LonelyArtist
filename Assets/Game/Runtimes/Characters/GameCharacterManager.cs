@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace Game.Runtimes.Characters
 {
-    public class CharacterManager : MonoBehaviour
+    public class GameCharacterManager : MonoBehaviour
     {
-        public static CharacterManager Instance;
+        public static GameCharacterManager Instance;
 
         private List<UnitCharacter> characters = new List<UnitCharacter>();
         private UnitCharacter mainCharacter;

@@ -29,7 +29,7 @@ namespace Game.Runtimes.Characters
 
         private void OnButtonRunClicked()
         {
-            Character mainCharacter = CharacterManager.Instance.GetMainCharacter();
+            Character mainCharacter = GameCharacterManager.Instance.GetMainCharacter();
             if(mainCharacter)
             {
                 mainCharacter.Motion.ChangeMotion("Run");
@@ -38,7 +38,7 @@ namespace Game.Runtimes.Characters
 
         private void OnButtonWalkClicked()
         {
-            Character mainCharacter = CharacterManager.Instance.GetMainCharacter();
+            Character mainCharacter = GameCharacterManager.Instance.GetMainCharacter();
             if (mainCharacter)
             {
                 mainCharacter.Motion.ChangeMotion("Walk");

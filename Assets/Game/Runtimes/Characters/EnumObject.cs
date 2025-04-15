@@ -8,6 +8,12 @@ namespace Game.Runtimes.Characters
         Walk, 
         Run
     }
+
+    public enum CharacterSelectType
+    {
+        MainCharacter,
+        Special
+    }
 }
 
 

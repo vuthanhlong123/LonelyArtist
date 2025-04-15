@@ -10,15 +10,15 @@ namespace Game.Runtimes.Characters
 
         protected virtual void Awake()
         {
-            if(CharacterManager.Instance == null)
+            if(GameCharacterManager.Instance == null)
             {
                 GameObject newObj = new GameObject("Character Manager");
-                CharacterManager manager = newObj.AddComponent<CharacterManager>();
+                GameCharacterManager manager = newObj.AddComponent<GameCharacterManager>();
                 manager.AddChild(this);
             }
             else
             {
-                CharacterManager.Instance.AddChild(this);
+                GameCharacterManager.Instance.AddChild(this);
             }
         }
     }

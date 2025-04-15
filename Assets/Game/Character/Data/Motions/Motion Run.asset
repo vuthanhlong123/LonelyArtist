@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   motionName: Run
   moveSpeed: 12
+  useBlendTree: 1
   animationDatas:
   - name: Idle
     animation: {fileID: 7400000, guid: 563dad6caf04d81419eb4d8035b201c2, type: 2}
@@ -27,3 +28,4 @@ MonoBehaviour:
     animation: {fileID: 7400000, guid: 7d2bb0c671519a64dbfac43b5f5b90b3, type: 2}
     threshold: 1
     speed: 3
+  transitionSpeed: 3
