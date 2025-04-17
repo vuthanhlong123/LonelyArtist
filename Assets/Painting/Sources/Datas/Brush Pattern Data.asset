@@ -19,3 +19,9 @@ MonoBehaviour:
   - brushName: star
     brushTexture: {fileID: 2800000, guid: ae0ea21438dd5314a9a5137d5c43efc6, type: 3}
     brushSprite: {fileID: 21300000, guid: e00f9ff523f3bcc4e8e288b916cdd171, type: 3}
+  - brushName: 3
+    brushTexture: {fileID: 2800000, guid: f96a839a29cadc3408d98d8d5ea9c06c, type: 3}
+    brushSprite: {fileID: 21300000, guid: 28ff9849192514c468fb118dae8f746e, type: 3}
+  - brushName: 4
+    brushTexture: {fileID: 2800000, guid: 51d0be62c4167d14e842a6df81d14f7b, type: 3}
+    brushSprite: {fileID: 21300000, guid: 90c180fce68c20444aae82bc8808deef, type: 3}

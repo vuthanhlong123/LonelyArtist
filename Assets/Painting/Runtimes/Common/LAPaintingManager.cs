@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace LA.Painting.Common
 {
     public class LAPaintingManager : MonoBehaviour
     {
-        [Header("Members")]
         [Header("Manager")]
         [SerializeField] private LAPaintingDataManager dataManager;
 
         [Header("Tools")]
+        [SerializeField] private LayerMask paintLayer;
         [SerializeField] private LAPaintingColorPicker colorPickerTool;
         [SerializeField] private LAPaintingBrushController brushTool;
         [SerializeField] private LAPaintingSampleColor sampleColorTool;
@@ -29,9 +30,9 @@ namespace LA.Painting.Common
 
         private RenderTexture renderTexture;
         public RenderTexture GetRenderTex => renderTexture;
-        private int loop;
 
         private Vector2 currentPos;
+        private Vector2 direction;
         private bool isHasChange;
 
         void Start()
@@ -57,6 +58,8 @@ namespace LA.Painting.Common
 
         void Update()
         {
+            if (IsMouseOverUI()) return;
+
             if (currentActivateTool != ToolType.Painting) 
             { 
                 isHasChange = false;
@@ -67,20 +70,19 @@ namespace LA.Painting.Common
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                if (Physics.Raycast(ray, out RaycastHit hit))
+                if (Physics.Raycast(ray, out RaycastHit hit, 100, paintLayer))
                 {
                     if (currentPos == hit.textureCoord) return;
+                    direction = hit.textureCoord - currentPos;
+                    HandlePaintLine(direction);
                     currentPos = hit.textureCoord;
+
                     paintMaterial.SetVector("_BrushPosition", hit.textureCoord);
 
                     // Thực hiện vẽ lên RenderTexture
                     Graphics.Blit(null, renderTexturePreview, paintMaterial);
                     Graphics.Blit(renderTexturePreview, renderTexture);
 
-                    //Texture2D texn = toTexture2D(renderTexture);
-                    //ConvertTexture2DToRenderTexture(texn, renderTexture);
-                    loop++;
-                    //SaveTexture(loop);
                     isHasChange = true;
                 }
             }
@@ -88,7 +90,7 @@ namespace LA.Painting.Common
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                if (Physics.Raycast(ray, out RaycastHit hit))
+                if (Physics.Raycast(ray, out RaycastHit hit, 100, paintLayer))
                 {
                     paintMaterial.SetVector("_BrushPosition", hit.textureCoord);
                 }
@@ -99,6 +101,19 @@ namespace LA.Painting.Common
                 dataManager.SavePaintingState(renderTexture);
                 isHasChange = false;
             }
+        }
+
+        private void HandlePaintLine(Vector2 brushDirection)
+        {
+
+            Vector3 direction = new Vector3(brushDirection.x,0, brushDirection.y);
+            // Create a quaternion from the direction vector
+            Quaternion rotation = Quaternion.LookRotation(direction);
+
+            // Convert the quaternion to Euler angles
+            Vector3 eulerAngles = rotation.eulerAngles;
+
+            UpdateBrushAngleNormalize(eulerAngles.y+90);
         }
 
         private Texture2D toTexture2D(RenderTexture rTex)
@@ -181,6 +196,12 @@ namespace LA.Painting.Common
         public void UpdateBrushAngle(float angle)
         {
             paintMaterial.SetFloat("_Rotation", angle);
+        }
+
+        public void UpdateBrushAngleNormalize(float angle)
+        {
+            float normalizeValue = angle / (360 / 6.28f);
+            paintMaterial.SetFloat("_Rotation", normalizeValue);
         }
 
         public void UpdateBrushSize(float size)
@@ -284,6 +305,11 @@ namespace LA.Painting.Common
             brushTool.OnSubmitChangedBrushSize -= BrushController_OnSubmitChangedBrushSize;
             brushTool.OnSubmitChangedBrushRotation -= BrushController_OnSubmitChangedBrushRotation;
             brushTool.OnSubmitChangedBrushOpacity -= BrushController_OnSubmitChangedBrushOpacity;
+        }
+
+        private bool IsMouseOverUI()
+        {
+            return EventSystem.current.IsPointerOverGameObject();
         }
     }
 }
