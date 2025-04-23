@@ -76,9 +76,9 @@ Material:
     - _CastShadows: 0
     - _Cull: 0
     - _Depth: 0.61
-    - _Displayment: 0.003
+    - _Displayment: 0.0015
     - _DstBlend: 10
-    - _Normal_Strength: 1
+    - _Normal_Strength: 0.43
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 0
@@ -93,9 +93,9 @@ Material:
     - _ZWriteControl: 0
     m_Colors:
     - _Depth_Water_Collor: {r: 1, g: 1, b: 1, a: 1}
-    - _Main_Normal_Tilling: {r: 10, g: 10, b: 0, a: 0}
-    - _Second_Normal_Tilling: {r: 10, g: 10, b: 0, a: 0}
-    - _Shallow_Water_Color: {r: 0.4119496, g: 0.734963, b: 1, a: 1}
+    - _Main_Normal_Tilling: {r: 20, g: 20, b: 0, a: 0}
+    - _Second_Normal_Tilling: {r: 20, g: 20, b: 0, a: 0}
+    - _Shallow_Water_Color: {r: 0.34905648, g: 0.780466, b: 1, a: 1}
     - _Wave_Displayment_Move: {r: 0, g: 0.02, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
