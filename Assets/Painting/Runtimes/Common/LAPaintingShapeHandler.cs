@@ -32,7 +32,7 @@ namespace LA.Painting.Common
 
             ResetSize();
 
-            UpdateBrushColor(paintManager.ColorPickerHandler.currentColor);
+            UpdateShapeColor(paintManager.ColorPickerHandler.currentColor);
             gameObject.SetActive(state);
         }
 
@@ -87,19 +87,39 @@ namespace LA.Painting.Common
         }
 
         #region Painting Brush Updatable
-        public void UpdateBrushColor(Color color)
+        public void UpdateShapeColor(Color color)
         {
             paintMaterial.SetColor("_BrushColor", color);
         }
 
-        public void UpdateBrushPatten(Texture2D pattern)
+        public void UpdateShapePatten(Texture2D pattern)
         {
             paintMaterial.SetTexture("_BrushTex", pattern);
         }
 
-        public void UpdateBrushOpacity(float opacity)
+        public void UpdateShapeOpacity(float opacity)
         {
             paintMaterial.SetFloat("_Opacity", opacity);
+        }
+
+        //Width of shape's edge
+        public void UpdateShapeWireWidth(float width)
+        {
+            if(paintMaterial.HasFloat("_WireWidth"))
+                paintMaterial.SetFloat("_WireWidth", width);
+        }
+
+        public void UpdateShapeSide(float side)
+        {
+            if (paintMaterial.HasFloat("_Side"))
+                paintMaterial.SetFloat("_Side", side);
+        }
+
+        // Radius of shape's corner
+        public void UpdateShapeRadius(float radius)
+        {
+            if (paintMaterial.HasFloat("_Radius"))
+                paintMaterial.SetFloat("_Radius", radius);
         }
         #endregion
 
@@ -110,24 +130,50 @@ namespace LA.Painting.Common
 
         private void OnEnable()
         {
-            brushPaintUI.OnSubmitChangedBrushPattern += BrushPaintUI_OnSubmitChangedBrushPattern;
-            brushPaintUI.OnSubmitChangedBrushOpacity += BrushPaintUI_OnSubmitChangedBrushOpacity;
+            brushPaintUI.OnSubmitChangedShapePattern += BrushPaintUI_OnSubmitChangedShapePattern;
+            brushPaintUI.OnSubmitChangedShapeOpacity += BrushPaintUI_OnSubmitChangedShapeOpacity;
+            brushPaintUI.OnSubmitChangedWireWidth += BrushPaintUI_OnSubmitChangedWireWidth;
+            brushPaintUI.OnSubmitChangedSide += BrushPaintUI_OnSubmitChangedSide;
+            brushPaintUI.OnSubmitChangedBoundRadius += BrushPaintUI_OnSubmitChangedBoundRadius;
         }
 
-        private void BrushPaintUI_OnSubmitChangedBrushOpacity(float opacity)
+        private void BrushPaintUI_OnSubmitChangedBoundRadius(float radius)
         {
-            UpdateBrushOpacity(opacity);
+            UpdateShapeRadius(radius);
         }
 
-        private void BrushPaintUI_OnSubmitChangedBrushPattern(Texture2D pattern)
+        private void BrushPaintUI_OnSubmitChangedSide(float side)
         {
-            UpdateBrushPatten(pattern);
+            UpdateShapeSide(side);
+        }
+
+        private void BrushPaintUI_OnSubmitChangedWireWidth(float width)
+        {
+            UpdateShapeWireWidth(width);
+        }
+
+        private void BrushPaintUI_OnSubmitChangedShapeOpacity(float opacity)
+        {
+            UpdateShapeOpacity(opacity);
+        }
+
+        private void BrushPaintUI_OnSubmitChangedShapePattern(Texture2D pattern, Material paintMat)
+        {
+            paintMaterial = paintMat;
+            paintManager.UpdatePaintMaterial(paintMat);
+            paintMaterial.SetTexture("_MainTex", renderTexture);
+            UpdateShapeColor(paintManager.ColorPickerHandler.currentColor);
+            UpdateShapePatten(pattern);
+            ResetSize();
         }
 
         private void OnDisable()
         {
-            brushPaintUI.OnSubmitChangedBrushPattern -= BrushPaintUI_OnSubmitChangedBrushPattern;
-            brushPaintUI.OnSubmitChangedBrushOpacity -= BrushPaintUI_OnSubmitChangedBrushOpacity;
+            brushPaintUI.OnSubmitChangedShapePattern -= BrushPaintUI_OnSubmitChangedShapePattern;
+            brushPaintUI.OnSubmitChangedShapeOpacity -= BrushPaintUI_OnSubmitChangedShapeOpacity;
+            brushPaintUI.OnSubmitChangedWireWidth -= BrushPaintUI_OnSubmitChangedWireWidth;
+            brushPaintUI.OnSubmitChangedSide -= BrushPaintUI_OnSubmitChangedSide;
+            brushPaintUI.OnSubmitChangedBoundRadius -= BrushPaintUI_OnSubmitChangedBoundRadius;
         }
     }
 }

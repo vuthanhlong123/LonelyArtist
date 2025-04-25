@@ -9,43 +9,47 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a847445feef0cb45a9907d6218c0b68, type: 3}
+  m_Script: {fileID: 11500000, guid: 36ef0da6689653d4298b8ef7bae7273b, type: 3}
   m_Name: Shape Pattern Data
   m_EditorClassIdentifier: 
-  brushPatterns:
-  - brushName: 1
-    brushTexture: {fileID: 2800000, guid: 93ed128ecef6bf44c915a35817e82052, type: 3}
-    brushSprite: {fileID: 21300000, guid: 1ed6765613ad00a42914a4bacd7e2aa8, type: 3}
-  - brushName: 2
-    brushTexture: {fileID: 2800000, guid: 8cfa9f9aff0514846b2bd1802c72a758, type: 3}
-    brushSprite: {fileID: 21300000, guid: aa6b791ef70cb6949a3a630f92a21a15, type: 3}
-  - brushName: 3
-    brushTexture: {fileID: 2800000, guid: faa9f6277034d8243ae717b7245d6a06, type: 3}
-    brushSprite: {fileID: 21300000, guid: b59b7312941e2354aa23cb657e0a8a93, type: 3}
-  - brushName: 4
-    brushTexture: {fileID: 2800000, guid: 374980895be9b934db7d96a4e24d38e1, type: 3}
-    brushSprite: {fileID: 21300000, guid: f21c254244146b2498d4f27c4e1c263d, type: 3}
-  - brushName: 5
-    brushTexture: {fileID: 2800000, guid: 02209e09130302a439143ff302339f26, type: 3}
-    brushSprite: {fileID: 21300000, guid: 1bb702913d1a9534bb5a2c7a3fc9f5a5, type: 3}
-  - brushName: 6
-    brushTexture: {fileID: 2800000, guid: b5681bd2b75a5b84a8bb27a477e0946a, type: 3}
-    brushSprite: {fileID: 21300000, guid: 4a4c99fdb87421e49aa18ee3799b544c, type: 3}
-  - brushName: 7
-    brushTexture: {fileID: 2800000, guid: dc14f52bac327b84bb7282dae8d63d01, type: 3}
-    brushSprite: {fileID: 21300000, guid: f3e2b300527a7694fa5a3c30747689e7, type: 3}
-  - brushName: 8
-    brushTexture: {fileID: 2800000, guid: 51d7241ac25edea4baeab36102c94027, type: 3}
-    brushSprite: {fileID: 21300000, guid: cdc569d80bc25e94184975c534d547c6, type: 3}
-  - brushName: 8
-    brushTexture: {fileID: 2800000, guid: c91d426b41d2c3640b5df20e0076a951, type: 3}
-    brushSprite: {fileID: 21300000, guid: d7d52be40dec53c41a31ba2cc85b2457, type: 3}
-  - brushName: 8
-    brushTexture: {fileID: 2800000, guid: 8500e9effb1f15946b7aaa8ab8596803, type: 3}
-    brushSprite: {fileID: 21300000, guid: fe57ba50a174d37438fec6e1fd464fbe, type: 3}
-  - brushName: 8
-    brushTexture: {fileID: 2800000, guid: 141541f322e66e54ba6fb3ee0abc6ba7, type: 3}
-    brushSprite: {fileID: 21300000, guid: a93f0d99989e9de4b8ad064cb79dab22, type: 3}
-  - brushName: 8
-    brushTexture: {fileID: 2800000, guid: 261705be87659f549abdbec2752833dd, type: 3}
-    brushSprite: {fileID: 21300000, guid: 4446899cde3f48d428a49dd8ff949aaa, type: 3}
+  shapePatterns:
+  - id: 0
+    materialReferenceId: 1
+    texture: {fileID: 2800000, guid: 93ed128ecef6bf44c915a35817e82052, type: 3}
+    sprite: {fileID: 21300000, guid: 1ed6765613ad00a42914a4bacd7e2aa8, type: 3}
+  - id: 1
+    materialReferenceId: 2
+    texture: {fileID: 2800000, guid: faa9f6277034d8243ae717b7245d6a06, type: 3}
+    sprite: {fileID: 21300000, guid: b59b7312941e2354aa23cb657e0a8a93, type: 3}
+  - id: 2
+    materialReferenceId: 3
+    texture: {fileID: 2800000, guid: 02209e09130302a439143ff302339f26, type: 3}
+    sprite: {fileID: 21300000, guid: 1bb702913d1a9534bb5a2c7a3fc9f5a5, type: 3}
+  - id: 3
+    materialReferenceId: 0
+    texture: {fileID: 2800000, guid: b5681bd2b75a5b84a8bb27a477e0946a, type: 3}
+    sprite: {fileID: 21300000, guid: 4a4c99fdb87421e49aa18ee3799b544c, type: 3}
+  - id: 4
+    materialReferenceId: 0
+    texture: {fileID: 2800000, guid: dc14f52bac327b84bb7282dae8d63d01, type: 3}
+    sprite: {fileID: 21300000, guid: f3e2b300527a7694fa5a3c30747689e7, type: 3}
+  - id: 5
+    materialReferenceId: 0
+    texture: {fileID: 2800000, guid: 51d7241ac25edea4baeab36102c94027, type: 3}
+    sprite: {fileID: 21300000, guid: cdc569d80bc25e94184975c534d547c6, type: 3}
+  - id: 6
+    materialReferenceId: 0
+    texture: {fileID: 2800000, guid: c91d426b41d2c3640b5df20e0076a951, type: 3}
+    sprite: {fileID: 21300000, guid: d7d52be40dec53c41a31ba2cc85b2457, type: 3}
+  - id: 7
+    materialReferenceId: 0
+    texture: {fileID: 2800000, guid: 141541f322e66e54ba6fb3ee0abc6ba7, type: 3}
+    sprite: {fileID: 21300000, guid: a93f0d99989e9de4b8ad064cb79dab22, type: 3}
+  - id: 8
+    materialReferenceId: 0
+    texture: {fileID: 2800000, guid: 8500e9effb1f15946b7aaa8ab8596803, type: 3}
+    sprite: {fileID: 21300000, guid: fe57ba50a174d37438fec6e1fd464fbe, type: 3}
+  - id: 9
+    materialReferenceId: 0
+    texture: {fileID: 2800000, guid: 261705be87659f549abdbec2752833dd, type: 3}
+    sprite: {fileID: 21300000, guid: 4446899cde3f48d428a49dd8ff949aaa, type: 3}

@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6cab3ac0eee7474cab371f7f1cb1f38, type: 3}
+  m_Name: Shape Paint Material Data
+  m_EditorClassIdentifier: 
+  shapePaintMaterials:
+  - id: 0
+    material: {fileID: 2100000, guid: 15d7d83702d26484284c37c99f4d3fd4, type: 2}
+    useOpacity: 1
+    useWireWidth: 0
+    useSide: 0
+    useRadius: 0
+  - id: 1
+    material: {fileID: 2100000, guid: a48506c7a53a16d44994d88258402943, type: 2}
+    useOpacity: 1
+    useWireWidth: 1
+    useSide: 0
+    useRadius: 1
+  - id: 2
+    material: {fileID: 2100000, guid: de4dcd36e11d4f34584f89ccc087d030, type: 2}
+    useOpacity: 1
+    useWireWidth: 1
+    useSide: 0
+    useRadius: 0
+  - id: 3
+    material: {fileID: 2100000, guid: 7d07774446593924aa4b4e84a8b37978, type: 2}
+    useOpacity: 1
+    useWireWidth: 1
+    useSide: 1
+    useRadius: 1

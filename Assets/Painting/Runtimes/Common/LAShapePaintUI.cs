@@ -11,24 +11,45 @@ namespace LA.Painting.Common
     public class LAShapePaintUI : MonoBehaviour
     {
         [Header("Data")]
-        [SerializeField] private BrushPatternDataHolder brushPatternDataHolder;
+        [SerializeField] private ShapePatternDataHolder shapePatternDataHolder;
+        [SerializeField] private ShapePaintMaterialHolder shapePaintMaterialDataHolder;
 
-        [Header("Brush pattern")]
+        [Header("Shape Control")]
+        [SerializeField] private Button button_ShapeControlBoard;
+        [SerializeField] private TextMeshProUGUI text_ButtonText;
+
+        [Header("Shape Pattern")]
+        [SerializeField] private GameObject container_ShapePattern;
         [SerializeField] private CustomDropdown brushOptions;
 
-        [Header("Brush Control")]
-        [SerializeField] private Button button_BrushControlBoard;
-        [SerializeField] private TextMeshProUGUI text_ButtonText;
-        [SerializeField] private GameObject container_BrushControl;
-        [SerializeField] private GameObject container_brushPattern;
-
-        [Header("Brush opaicty")]
+        [Header("Shape opaicty")]
+        [SerializeField] private GameObject container_ShapeOpacity;
         [SerializeField] private Slider slider_BrushOpacity;
-        [SerializeField] private TextMeshProUGUI text_BrushOpacityValue;
+        [SerializeField] private TextMeshProUGUI text_ShapeOpacityValue;
+
+        [Header("Shape Wire Width")]
+        [SerializeField] private GameObject container_ShapeWireWidth;
+        [SerializeField] private Slider slider_ShapeWireWidth;
+        [SerializeField] private TextMeshProUGUI text_ShapeWireWidthValue;
+
+        [Header("Shape Side")]
+        [SerializeField] private GameObject container_ShapeSide;
+        [SerializeField] private Slider slider_ShapeSide;
+        [SerializeField] private TextMeshProUGUI text_ShapeSideValue;
+
+        [Header("Shape Bound Radius")]
+        [SerializeField] private GameObject container_ShapeBoundRadius;
+        [SerializeField] private Slider slider_ShapeBoundRadius;
+        [SerializeField] private TextMeshProUGUI text_ShapeBoundRadiusValue;
 
         //Events
-        public event UnityAction<Texture2D> OnSubmitChangedBrushPattern;
-        public event UnityAction<float> OnSubmitChangedBrushOpacity;
+        public event UnityAction<Texture2D, Material> OnSubmitChangedShapePattern;
+        public event UnityAction<float> OnSubmitChangedShapeOpacity;
+        public event UnityAction<float> OnSubmitChangedWireWidth;
+        public event UnityAction<float> OnSubmitChangedSide;
+        public event UnityAction<float> OnSubmitChangedBoundRadius;
+
+        private int currentSelectedId;
 
         private void Start()
         {
@@ -40,60 +61,120 @@ namespace LA.Painting.Common
 
         private void Init()
         {
-            OnBrushOpacityChanged(slider_BrushOpacity);
+            OnShapeOpacityChanged(slider_BrushOpacity);
+            OnShapeWireWidthChanged(slider_ShapeWireWidth);
+            OnShapeSideChanged(slider_ShapeSide);
+            OnShapeBoundRadiusChanged(slider_ShapeBoundRadius);
 
-            container_BrushControl.SetActive(false);
-            container_brushPattern.SetActive(false);
+            container_ShapePattern.SetActive(false);
+            container_ShapeOpacity.SetActive(false);
+            container_ShapeWireWidth.SetActive(false);
+            container_ShapeSide.SetActive(false);
+            container_ShapeBoundRadius.SetActive(false);
 
             text_ButtonText.text = "+";
         }
 
         private void AddListener()
         {
-            button_BrushControlBoard.onClick.AddListener(OnButtonBrushControlBoardClicked);
-            slider_BrushOpacity.onValueChanged.AddListener(delegate { OnBrushOpacityChanged(slider_BrushOpacity); });
+            button_ShapeControlBoard.onClick.AddListener(OnButtonBrushControlBoardClicked);
+            slider_BrushOpacity.onValueChanged.AddListener(delegate { OnShapeOpacityChanged(slider_BrushOpacity); });
+            slider_ShapeWireWidth.onValueChanged.AddListener(delegate { OnShapeWireWidthChanged(slider_ShapeWireWidth); });
+            slider_ShapeSide.onValueChanged.AddListener(delegate { OnShapeSideChanged(slider_ShapeSide); });
+            slider_ShapeBoundRadius.onValueChanged.AddListener(delegate { OnShapeBoundRadiusChanged(slider_ShapeBoundRadius); });
         }
 
         private void OnButtonBrushControlBoardClicked()
         {
-            container_BrushControl.SetActive(!container_BrushControl.activeSelf);
-            container_brushPattern.SetActive(!container_brushPattern.activeSelf);
+            container_ShapePattern.SetActive(!container_ShapePattern.activeSelf);
+            if(container_ShapePattern.activeSelf)
+                EnableShapeControllers(currentSelectedId);
+            else
+            {
+                container_ShapeOpacity.SetActive(false);
+                container_ShapeWireWidth.SetActive(false);
+                container_ShapeSide.SetActive(false);
+                container_ShapeBoundRadius.SetActive(false);
+            }
 
-            text_ButtonText.text = container_BrushControl.activeSelf ? "-" : "+";
+            text_ButtonText.text = container_ShapePattern.activeSelf ? "-" : "+";
+        }
+
+        //Enbale shape controllers follow properties used by paint material
+        private void EnableShapeControllers(int id)
+        {
+            ShapePatternData shapeData = shapePatternDataHolder.GetByArrId(id);
+            if (shapeData == null) return;
+
+            ShapePaintMaterialData paintMaterialData = shapePaintMaterialDataHolder.FindData(shapeData.MaterialReferenceId);
+
+            if (paintMaterialData == null) return;
+
+            container_ShapeOpacity.SetActive(paintMaterialData.useOpacity);
+            container_ShapeWireWidth.SetActive(paintMaterialData.useWireWidth);
+            container_ShapeSide.SetActive(paintMaterialData.useSide);
+            container_ShapeBoundRadius.SetActive(paintMaterialData.useRadius);
         }
 
         private void InitDefaultBrush()
         {
-            BrushPatternData brushPattern = brushPatternDataHolder.GetByArrId(0);
+            currentSelectedId = 0;
 
-            if (brushPattern != null)
-                OnSubmitChangedBrushPattern?.Invoke(brushPattern.BrushTexture);
+            ShapePatternData shapePattern = shapePatternDataHolder.GetByArrId(currentSelectedId);
+            if (shapePattern == null) return;
+
+            ShapePaintMaterialData paintMaterialData = shapePaintMaterialDataHolder.FindData(shapePattern.MaterialReferenceId);
+
+            if (paintMaterialData == null) return;
+
+            OnSubmitChangedShapePattern?.Invoke(shapePattern.Texture, paintMaterialData.material);
         }
 
         private void InitBrushPatternOption()
         {
-            if (brushPatternDataHolder == null) return;
+            if (shapePatternDataHolder == null) return;
 
-            BrushPatternData[] brushPatterns = brushPatternDataHolder.BrushPatterns;
+            ShapePatternData[] shapePatterns = shapePatternDataHolder.ShapePatterns;
 
-            if (brushPatterns == null) return;
+            if (shapePatterns == null) return;
 
-            DropdownItemData[] dropdownItems = new DropdownItemData[brushPatterns.Length];
+            DropdownItemData[] dropdownItems = new DropdownItemData[shapePatterns.Length];
 
             for (int i = 0; i < dropdownItems.Length; i++)
             {
                 dropdownItems[i] = new DropdownItemData();
-                dropdownItems[i].sprite = brushPatterns[i].BrushSprite;
+                dropdownItems[i].sprite = shapePatterns[i].Sprite;
             }
 
             brushOptions.CreateDropdownItems(dropdownItems);
         }
 
-        private void OnBrushOpacityChanged(Slider slider)
+        private void OnShapeOpacityChanged(Slider slider)
         {
-            text_BrushOpacityValue.text = (Math.Round(slider.value, 1)).ToString();
+            text_ShapeOpacityValue.text = (Math.Round(slider.value, 1)).ToString();
 
-            OnSubmitChangedBrushOpacity?.Invoke(slider.value);
+            OnSubmitChangedShapeOpacity?.Invoke(slider.value);
+        }
+
+        private void OnShapeWireWidthChanged(Slider slider)
+        {
+            text_ShapeWireWidthValue.text = (Math.Round(slider.value, 1)).ToString();
+
+            OnSubmitChangedWireWidth?.Invoke(slider.value/slider.maxValue);
+        }
+
+        private void OnShapeSideChanged(Slider slider)
+        {
+            text_ShapeSideValue.text = (Math.Round(slider.value, 1)).ToString();
+
+            OnSubmitChangedSide?.Invoke(slider.value);
+        }
+
+        private void OnShapeBoundRadiusChanged(Slider slider)
+        {
+            text_ShapeBoundRadiusValue.text = (Math.Round(slider.value, 1)).ToString();
+
+            OnSubmitChangedBoundRadius?.Invoke(slider.value);
         }
 
         private void OnEnable()
@@ -109,10 +190,22 @@ namespace LA.Painting.Common
 
         private void BrushOptions_OnSelectionChange(CustomDropdownItem item)
         {
-            BrushPatternData brushPattern = brushPatternDataHolder.GetByArrId(item.id);
+            ShapePatternData shapePattern = shapePatternDataHolder.GetByArrId(item.id);
+            if (shapePattern == null) return;
 
-            if (brushPattern != null)
-                OnSubmitChangedBrushPattern?.Invoke(brushPattern.BrushTexture);
+            ShapePaintMaterialData paintMaterialData = shapePaintMaterialDataHolder.FindData(shapePattern.MaterialReferenceId);
+
+            if(paintMaterialData == null) return;
+
+            currentSelectedId = item.id;
+            EnableShapeControllers(currentSelectedId);
+
+            OnSubmitChangedShapePattern?.Invoke(shapePattern.Texture, paintMaterialData.material);
+
+            OnShapeOpacityChanged(slider_BrushOpacity);
+            OnShapeWireWidthChanged(slider_ShapeWireWidth);
+            OnShapeSideChanged(slider_ShapeSide);
+            OnShapeBoundRadiusChanged(slider_ShapeBoundRadius);
         }
 
         private void OnDisable()

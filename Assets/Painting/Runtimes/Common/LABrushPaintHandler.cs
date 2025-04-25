@@ -25,6 +25,7 @@ namespace LA.Painting.Common
             // Gán RenderTexture vào Material
             renderTexture = renderTex;
             paintMaterial.SetTexture("_MainTex", renderTex);
+            UpdateBrushAngle(0);
         }
 
         public override void Activate(bool state)

@@ -16,12 +16,15 @@ MonoBehaviour:
   - brushName: 1
     brushTexture: {fileID: 2800000, guid: 220395c6b6c560c40bd920431b98ad38, type: 3}
     brushSprite: {fileID: 21300000, guid: 4a9100456a04fbd4ca9ba53bbd3d2b2c, type: 3}
-  - brushName: star
-    brushTexture: {fileID: 2800000, guid: ae0ea21438dd5314a9a5137d5c43efc6, type: 3}
-    brushSprite: {fileID: 21300000, guid: e00f9ff523f3bcc4e8e288b916cdd171, type: 3}
-  - brushName: 3
+  - brushName: 2
     brushTexture: {fileID: 2800000, guid: f96a839a29cadc3408d98d8d5ea9c06c, type: 3}
     brushSprite: {fileID: 21300000, guid: 28ff9849192514c468fb118dae8f746e, type: 3}
-  - brushName: 4
+  - brushName: 3
     brushTexture: {fileID: 2800000, guid: 51d0be62c4167d14e842a6df81d14f7b, type: 3}
     brushSprite: {fileID: 21300000, guid: 90c180fce68c20444aae82bc8808deef, type: 3}
+  - brushName: 4
+    brushTexture: {fileID: 2800000, guid: 59d3bc8021e76b543bf01c8cd3375784, type: 3}
+    brushSprite: {fileID: 21300000, guid: d5968f49a25e7a747b8d87c80d316641, type: 3}
+  - brushName: 5
+    brushTexture: {fileID: 2800000, guid: d86e9cb10fb60344e90eb9d4453713c2, type: 3}
+    brushSprite: {fileID: 21300000, guid: a351ae8fe9a2ba143b14c290380b3d19, type: 3}
