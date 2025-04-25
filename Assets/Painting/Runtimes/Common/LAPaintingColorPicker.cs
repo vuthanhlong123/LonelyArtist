@@ -9,7 +9,7 @@ namespace LA.Painting.Common
     {
         [Header("Memebers")]
         [SerializeField] private LAPaintingSampleColor sampleColor;
-        [SerializeField] private Image image_OutputImage;
+        [SerializeField] private Image colorDisplamentImage;
 
         [Header("Control")]
         [SerializeField] private GameObject container;
@@ -35,9 +35,16 @@ namespace LA.Painting.Common
         public event UnityAction<Color> OnChangedColor;
         public event UnityAction OnOpen;
 
-        private void Start()
+        public Color currentColor;
+
+        protected override void Awake()
         {
             Init();
+            base.Awake();
+        }
+
+        private void Start()
+        {
             AddListener();
         }
 
@@ -53,13 +60,6 @@ namespace LA.Painting.Common
         {
             hueSlider.onValueChanged.AddListener(delegate { UpdateSVImage(); });
             button_hexAccept.onClick.AddListener(OnTexInput);
-        }
-
-        private void OnButtonOpenClicked()
-        {
-            container.SetActive(!container.activeSelf);
-
-            if (container.activeSelf) OnOpen?.Invoke();
         }
 
         private void CreateHueImage()
@@ -131,7 +131,8 @@ namespace LA.Painting.Common
             hexInputField.text = ColorUtility.ToHtmlStringRGB (currentColor);
             OnChangedColor?.Invoke(currentColor);
 
-            image_OutputImage.color = currentColor;
+            colorDisplamentImage.color = currentColor;
+            this.currentColor = currentColor;
         }
 
         public void SetSV(float S, float V)
@@ -185,23 +186,13 @@ namespace LA.Painting.Common
             container.SetActive(false);
         }
 
-        private void OnEnable()
-        {
-            sampleColor.OnGettedColorSample += SampleColor_OnGettedColorSample;
-        }
-
-        private void SampleColor_OnGettedColorSample(Color color)
+        public void UpdateColor(Color color)
         {
             Color.RGBToHSV(color, out currentHue, out currentSat, out currentVal);
 
             hueSlider.value = currentHue;
 
             UpdateOutputImage();
-        }
-
-        private void OnDisable()
-        {
-            sampleColor.OnGettedColorSample -= SampleColor_OnGettedColorSample;
         }
     }
 }

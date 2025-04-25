@@ -1,17 +1,13 @@
 using LA.Common.Tools;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace LA.Painting.Common
 {
     public class LAPaintingSampleColor : LAPaintingTool
     {
         [Space(15)]
-        [SerializeField] private LAPaintingManager paintingManager;
         [SerializeField] private RectTransform brush_Trans;
         [SerializeField] private LayerMask targetLayer;
-
-        public event UnityAction<Color> OnGettedColorSample;
 
         private void Update()
         {
@@ -21,15 +17,11 @@ namespace LA.Painting.Common
 
         private void UpdateBrushPosition()
         {
-            if (!isActivate) return;
-
             brush_Trans.anchoredPosition = Input.mousePosition;
         }
 
         private void HandlingGetColorSample()
         {
-            if (!isActivate) return;
-
             if (Input.GetMouseButtonDown(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -41,11 +33,11 @@ namespace LA.Painting.Common
 
                     if (renderer != null && meshCollider != null)
                     {
-                        Texture2D texture2d = CustomRenderUtility.RenderTexturetoTexture2D(paintingManager.GetRenderTex);
+                        Texture2D texture2d = CustomRenderUtility.RenderTexturetoTexture2D(paintManager.GetRenderTex);
 
                         Vector2 uv = hit.textureCoord;
                         Color color = texture2d.GetPixelBilinear(uv.x, uv.y);
-                        OnGettedColorSample?.Invoke(color);
+                        paintManager.ColorPickerHandler.UpdateColor(color);
                     }
                 }
             }

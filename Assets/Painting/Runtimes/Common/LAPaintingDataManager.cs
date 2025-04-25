@@ -1,4 +1,4 @@
-using LA.Common.Tools;
+﻿using LA.Common.Tools;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,6 +31,23 @@ namespace LA.Painting.Common
                 paintedTexture.RemoveAt(paintedTexture.Count - 1);
             }
         }
+
+       /* public void SaveTexture(int index)
+        {
+            // Chuyển RenderTexture thành Texture2D
+            RenderTexture.active = renderTexturePreview;
+            Texture2D savedTexture = new Texture2D(renderTexturePreview.width, renderTexturePreview.height, TextureFormat.ARGB32, false);
+            savedTexture.ReadPixels(new Rect(0, 0, renderTexturePreview.width, renderTexturePreview.height), 0, 0);
+            savedTexture.Apply();
+            RenderTexture.active = null;
+
+            // Lưu Texture thành PNG
+            byte[] bytes = savedTexture.EncodeToPNG();
+            string path = Application.persistentDataPath + $"/SavedTexture{index}.png";
+            System.IO.File.WriteAllBytes(path, bytes);
+
+            Debug.Log("Texture saved at: " + path);
+        }*/
     }
 }
 

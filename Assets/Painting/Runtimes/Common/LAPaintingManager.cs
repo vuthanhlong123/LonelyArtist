@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace LA.Painting.Common
 {
@@ -8,11 +7,11 @@ namespace LA.Painting.Common
         [Header("Manager")]
         [SerializeField] private LAPaintingDataManager dataManager;
 
-        [Header("Tools")]
-        [SerializeField] private LayerMask paintLayer;
-        [SerializeField] private LAPaintingColorPicker colorPickerTool;
-        [SerializeField] private LAPaintingBrushController brushTool;
-        [SerializeField] private LAPaintingSampleColor sampleColorTool;
+        [Header("Member")]
+        [SerializeField] private LABrushPaintHandler brushPaintHandler;
+        [SerializeField] private LAPaintingColorPicker colorPickerHandler;
+        [SerializeField] private LAPaintingSampleColor sampleColorBrushHandler;
+        [SerializeField] private LAPaintingShapeHandler paintingShapeHandler;
 
         [Header("Tool Menu")]
         [SerializeField] private LAPaintingToolMenu toolMenu;
@@ -23,17 +22,18 @@ namespace LA.Painting.Common
         private ToolType currentActivateTool = ToolType.Nothing;
 
         [Header("Properties")]
-        public Material paintMaterial; // Material sử dụng Shader vẽ
-        public Texture2D baseTexture;  // Texture gốc
-        public Texture2D brushTex;
-        public RenderTexture renderTexturePreview; // RenderTexture lưu trạng thái
+        [SerializeField] private MeshRenderer paintBoardRender;
+        [SerializeField] private Material previewMaterial;
+        [SerializeField] private Texture2D baseTexture;  // Texture gốc
 
         private RenderTexture renderTexture;
         public RenderTexture GetRenderTex => renderTexture;
 
-        private Vector2 currentPos;
-        private Vector2 direction;
-        private bool isHasChange;
+        public LABrushPaintHandler BrushPaintHandler => brushPaintHandler;
+        public LAPaintingColorPicker ColorPickerHandler => colorPickerHandler;
+        public LAPaintingSampleColor SampleColorBrushHandler => sampleColorBrushHandler;
+
+        public LAPaintingShapeHandler PaintingShapeHandler => paintingShapeHandler;
 
         void Start()
         {
@@ -42,7 +42,6 @@ namespace LA.Painting.Common
 
         private void Init()
         {
-
             // Tạo RenderTexture để lưu kết quả
             renderTexture = new RenderTexture(1024, 1024, 0);
             renderTexture.enableRandomWrite = true;
@@ -51,180 +50,24 @@ namespace LA.Painting.Common
             // Copy Texture gốc vào RenderTexture
             Graphics.Blit(baseTexture, renderTexture);
 
-            // Gán RenderTexture vào Material
-            paintMaterial.SetTexture("_MainTex", renderTexture);
+            previewMaterial.SetTexture("_MainTex", renderTexture);
+            paintBoardRender.sharedMaterial = previewMaterial;
+
+            brushPaintHandler.StartUp(renderTexture);
+            paintingShapeHandler.StartUp(renderTexture);
+            SaveState();
+        }
+
+        public void SaveState()
+        {
             dataManager.SavePaintingState(renderTexture);
         }
-
-        void Update()
-        {
-            if (IsMouseOverUI()) return;
-
-            if (currentActivateTool != ToolType.Painting) 
-            { 
-                isHasChange = false;
-                return; 
-            }
-
-            if (Input.GetMouseButton(0)) // Nhấp chuột trái
-            {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-                if (Physics.Raycast(ray, out RaycastHit hit, 100, paintLayer))
-                {
-                    if (currentPos == hit.textureCoord) return;
-                    direction = hit.textureCoord - currentPos;
-                    HandlePaintLine(direction);
-                    currentPos = hit.textureCoord;
-
-                    paintMaterial.SetVector("_BrushPosition", hit.textureCoord);
-
-                    // Thực hiện vẽ lên RenderTexture
-                    Graphics.Blit(null, renderTexturePreview, paintMaterial);
-                    Graphics.Blit(renderTexturePreview, renderTexture);
-
-                    isHasChange = true;
-                }
-            }
-            else
-            {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-                if (Physics.Raycast(ray, out RaycastHit hit, 100, paintLayer))
-                {
-                    paintMaterial.SetVector("_BrushPosition", hit.textureCoord);
-                }
-            }
-
-            if(Input.GetMouseButtonUp(0) && isHasChange)
-            {
-                dataManager.SavePaintingState(renderTexture);
-                isHasChange = false;
-            }
-        }
-
-        private void HandlePaintLine(Vector2 brushDirection)
-        {
-
-            Vector3 direction = new Vector3(brushDirection.x,0, brushDirection.y);
-            // Create a quaternion from the direction vector
-            Quaternion rotation = Quaternion.LookRotation(direction);
-
-            // Convert the quaternion to Euler angles
-            Vector3 eulerAngles = rotation.eulerAngles;
-
-            UpdateBrushAngleNormalize(eulerAngles.y+90);
-        }
-
-        private Texture2D toTexture2D(RenderTexture rTex)
-        {
-            Texture2D tex = new Texture2D(rTex.width, rTex.height, TextureFormat.RGB24, false);
-            // ReadPixels looks at the active RenderTexture.
-            RenderTexture.active = rTex;
-            tex.ReadPixels(new Rect(0, 0, rTex.width, rTex.height), 0, 0);
-            tex.Apply();
-            return tex;
-        }
-
-        void UpdateMainTexture(RenderTexture renderTexture, Texture2D mainTexture)
-        {
-            // Đặt RenderTexture làm Active
-            RenderTexture.active = renderTexture;
-
-            // Đọc dữ liệu từ RenderTexture
-            mainTexture.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
-            mainTexture.Apply();
-
-            // Giải phóng Active RenderTexture
-            RenderTexture.active = null;
-
-            Debug.Log("Main Texture updated successfully.");
-        }
-
-        private void ConvertTexture2DToRenderTexture(Texture2D texture2D, RenderTexture renderTexture)
-        {
-            // Set the active RenderTexture
-            RenderTexture.active = renderTexture;
-
-            // Copy the Texture2D to the RenderTexture
-            Graphics.Blit(texture2D, renderTexture);
-
-            // Reset the active RenderTexture
-            RenderTexture.active = null;
-        }
-
-        public void SaveTexture(int index)
-        {
-            // Chuyển RenderTexture thành Texture2D
-            RenderTexture.active = renderTexturePreview;
-            Texture2D savedTexture = new Texture2D(renderTexturePreview.width, renderTexturePreview.height, TextureFormat.ARGB32, false);
-            savedTexture.ReadPixels(new Rect(0, 0, renderTexturePreview.width, renderTexturePreview.height), 0, 0);
-            savedTexture.Apply();
-            RenderTexture.active = null;
-
-            // Lưu Texture thành PNG
-            byte[] bytes = savedTexture.EncodeToPNG();
-            string path = Application.persistentDataPath + $"/SavedTexture{index}.png";
-            System.IO.File.WriteAllBytes(path, bytes);
-
-            Debug.Log("Texture saved at: " + path);
-        }
-
-        private Texture2D SpriteToTexture2D(Sprite sprite)
-        {
-            Texture2D originalTexture = sprite.texture;
-
-            // Step 2 (Optional): Create a copy of the Texture2D
-            Texture2D copiedTexture = new Texture2D(originalTexture.width, originalTexture.height, TextureFormat.RGBA32, originalTexture.mipmapCount > 1);
-            copiedTexture.SetPixels(originalTexture.GetPixels());
-            copiedTexture.Apply();
-
-            return copiedTexture;
-        }
-
-        #region Painting Brush Updatable
-        public void UpdateBrushColor(Color color)
-        {
-            paintMaterial.SetColor("_BrushColor", color);
-        }
-
-        public void UpdateBrushPatten(Texture2D pattern)
-        {
-            paintMaterial.SetTexture("_BrushTex", pattern);
-        }
-
-        public void UpdateBrushAngle(float angle)
-        {
-            paintMaterial.SetFloat("_Rotation", angle);
-        }
-
-        public void UpdateBrushAngleNormalize(float angle)
-        {
-            float normalizeValue = angle / (360 / 6.28f);
-            paintMaterial.SetFloat("_Rotation", normalizeValue);
-        }
-
-        public void UpdateBrushSize(float size)
-        {
-            paintMaterial.SetFloat("_BrushSize", size);
-        }
-
-        public void UpdateBrushOpacity(float opacity)
-        {
-            paintMaterial.SetFloat("_Opacity", opacity);
-        }
-        #endregion
 
         private void OnEnable()
         {
             toolMenu.OnSubmitChangeTool += ToolMenu_OnSubmitChangeTool;
             controlMenu.OnSubmitControlRequest += ControlMenu_OnSubmitControlRequest;
-            colorPickerTool.OnChangedColor += ColorPicker_OnChangedColor;
-
-            brushTool.OnSubmitChangedBrushPattern += BrushController_OnSubmitChangedBrushPattern;
-            brushTool.OnSubmitChangedBrushSize += BrushController_OnSubmitChangedBrushSize;
-            brushTool.OnSubmitChangedBrushRotation += BrushController_OnSubmitChangedBrushRotation;
-            brushTool.OnSubmitChangedBrushOpacity += BrushController_OnSubmitChangedBrushOpacity;
+            colorPickerHandler.OnChangedColor += ColorPicker_OnChangedColor;
         }
 
         //Painting control activation
@@ -251,9 +94,10 @@ namespace LA.Painting.Common
 
             switch (type)
             {
-                case ToolType.ColorPicker: colorPickerTool.Activate(true); break;
-                case ToolType.Painting: brushTool.Activate(true); RenderTexture.active = renderTexture; break;
-                case ToolType.GetColorSample: sampleColorTool.Activate(true); break;
+                case ToolType.ColorPicker: colorPickerHandler.Activate(true); PreviewRender(); break;
+                case ToolType.Painting: brushPaintHandler.Activate(true); RenderTexture.active = renderTexture; break;
+                case ToolType.GetColorSample: sampleColorBrushHandler.Activate(true); PreviewRender(); break;
+                case ToolType.ShapePaint: paintingShapeHandler.Activate(true); RenderTexture.active = renderTexture; break;
             }
 
             currentActivateTool = type;
@@ -263,53 +107,33 @@ namespace LA.Painting.Common
         {
             switch (type)
             {
-                case ToolType.ColorPicker: colorPickerTool.Activate(false); break;
-                case ToolType.Painting: brushTool.Activate(false); break;
-                case ToolType.GetColorSample: sampleColorTool.Activate(false); break;
+                case ToolType.ColorPicker: colorPickerHandler.Activate(false); break;
+                case ToolType.Painting: brushPaintHandler.Activate(false); break;
+                case ToolType.GetColorSample: sampleColorBrushHandler.Activate(false); break;
+                case ToolType.ShapePaint: paintingShapeHandler.Activate(false); break;
             }
         }
         #endregion
 
-        private void ColorPicker_OnChangedColor(Color color)
+        private void ColorPicker_OnChangedColor(UnityEngine.Color color)
         {
-            UpdateBrushColor(color);
+
         }
 
-        private void BrushController_OnSubmitChangedBrushPattern(Texture2D tex)
+        public void UpdatePaintMaterial(Material mat)
         {
-            UpdateBrushPatten(tex);
+            paintBoardRender.sharedMaterial = mat;
         }
-
-        private void BrushController_OnSubmitChangedBrushSize(float size)
+        public void PreviewRender()
         {
-            UpdateBrushSize(size);
-        }
-
-        private void BrushController_OnSubmitChangedBrushRotation(float angle)
-        {
-            UpdateBrushAngle(angle);
-        }
-
-        private void BrushController_OnSubmitChangedBrushOpacity(float opacity)
-        {
-            UpdateBrushOpacity(opacity);
+            UpdatePaintMaterial(previewMaterial);
         }
 
         private void OnDisable()
         {
             toolMenu.OnSubmitChangeTool -= ToolMenu_OnSubmitChangeTool;
             controlMenu.OnSubmitControlRequest -= ControlMenu_OnSubmitControlRequest;
-            colorPickerTool.OnChangedColor -= ColorPicker_OnChangedColor;
-
-            brushTool.OnSubmitChangedBrushPattern -= BrushController_OnSubmitChangedBrushPattern;
-            brushTool.OnSubmitChangedBrushSize -= BrushController_OnSubmitChangedBrushSize;
-            brushTool.OnSubmitChangedBrushRotation -= BrushController_OnSubmitChangedBrushRotation;
-            brushTool.OnSubmitChangedBrushOpacity -= BrushController_OnSubmitChangedBrushOpacity;
-        }
-
-        private bool IsMouseOverUI()
-        {
-            return EventSystem.current.IsPointerOverGameObject();
+            colorPickerHandler.OnChangedColor -= ColorPicker_OnChangedColor;
         }
     }
 }

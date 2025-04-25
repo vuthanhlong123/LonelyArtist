@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: paint2d
-  m_Shader: {fileID: -6465566751694194690, guid: 7e1d5d44d8081594fa5c3210258d5ea0, type: 3}
+  m_Name: 2dPaintPreview
+  m_Shader: {fileID: -6465566751694194690, guid: 8a34cbd2abb64f343ae507839aef6da7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
@@ -18,7 +18,7 @@ Material:
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2450
+  m_CustomRenderQueue: -1
   stringTagMap:
     RenderType: TransparentCutout
   disabledShaderPasses:
@@ -29,18 +29,10 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BrushTex:
-        m_Texture: {fileID: 2800000, guid: 220395c6b6c560c40bd920431b98ad38, type: 3}
+        m_Texture: {fileID: 2800000, guid: 19424e7912b6568488457b81b4a4025b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _RenderTarget:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _mainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -62,16 +54,16 @@ Material:
     - _AlphaToMask: 1
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
-    - _BrushSize: 0.005
+    - _BrushSize: 0.5
     - _CastShadows: 0
     - _Cull: 2
     - _DstBlend: 0
-    - _MaxSize: 50
+    - _MaxSize: 100
     - _Opacity: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 0
-    - _Rotation: 4.707004
+    - _Rotation: 6.28
     - _SrcBlend: 1
     - _Surface: 0
     - _WorkflowMode: 1
@@ -79,11 +71,11 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
-    - _BrushColor: {r: 0, g: 0, b: 0, a: 1}
-    - _BrushPosition: {r: 0.99949336, g: 0.6340235, b: 0, a: 0}
+    - _BrushColor: {r: 1, g: 0, b: 0, a: 0}
+    - _BrushPosition: {r: 0.42, g: 0.66, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &1936790325793934901
+--- !u!114 &3045045644981233348
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

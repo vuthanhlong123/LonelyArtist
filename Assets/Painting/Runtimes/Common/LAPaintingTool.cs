@@ -7,28 +7,27 @@ namespace LA.Painting.Common
         Nothing,
         Painting,
         ColorPicker,
-        GetColorSample
+        GetColorSample,
+        ShapePaint
     }
 
     public class LAPaintingTool : MonoBehaviour
     {
-        [SerializeField] private ToolType toolType;
+        [SerializeField] protected LAPaintingManager paintManager;
+        [SerializeField] protected ToolType toolType;
         public ToolType ToolType => ToolType;
-
-        [SerializeField] private GameObject toolContainer;
-        [SerializeField] private bool disableOnAwake;
-
-        public bool isActivate;
-
-        private void Awake()
+        protected virtual void Awake()
         {
             Activate(false);
         }
-
-        public void Activate(bool state)
+        public virtual void StartUp(RenderTexture renderTex)
         {
-            isActivate = state;
-            toolContainer.SetActive(isActivate);
+
+        }
+
+        public virtual void Activate(bool state)
+        {
+            gameObject.SetActive(state);
         }
     }
 }

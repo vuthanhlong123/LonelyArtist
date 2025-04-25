@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace LA.Painting.Common
 {
-    public class LAPaintingBrushController : LAPaintingTool
+    public class LABrushPaintUI : MonoBehaviour
     {
         [Header("Data")]
         [SerializeField] private BrushPatternDataHolder brushPatternDataHolder;
@@ -105,7 +105,7 @@ namespace LA.Painting.Common
 
         private void OnBrushSizeChanged(Slider slider)
         {
-            text_BrushSizeValue.text = ((int) slider.value).ToString();
+            text_BrushSizeValue.text = ((int) (slider.value*250)).ToString();
 
             OnSubmitChangedBrushSize?.Invoke(slider.value);
         }
