@@ -3,7 +3,17 @@ guid: 23663aef8c194a54e9e89338fb9ecf3f
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lighthouse
+    second: {fileID: 2100000, guid: 0bd030f93601c644d8fc73d202eaa0e4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lighthouse2
+    second: {fileID: 2100000, guid: 6371ac98eae39774c9a0aa572d2f539c, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
