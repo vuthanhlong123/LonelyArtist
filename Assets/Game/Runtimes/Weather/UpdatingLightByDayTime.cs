@@ -24,30 +24,6 @@ namespace Game.Runtimes.Weather
                 }
             }
         }
-
-        /* private void OnEnable()
-         {
-             WeatherController.OnDark += WeatherController_OnDark;
-             WeatherController.OnLight += WeatherController_OnLight;
-         }
-
-         private async void WeatherController_OnLight()
-         {
-             await Task.Yield();
-             targetLight.enabled = false;
-         }
-
-         private async void WeatherController_OnDark()
-         {
-             await Task.Yield();
-             targetLight.enabled = true;
-         }
-
-         private void OnDisable()
-         {
-             WeatherController.OnDark -= WeatherController_OnDark;
-             WeatherController.OnLight -= WeatherController_OnLight;
-         }*/
     }
 }
 
