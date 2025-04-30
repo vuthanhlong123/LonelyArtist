@@ -13,15 +13,11 @@ namespace Game.Runtimes.Weather
     {
         [Header("Presset")]
         [SerializeField] private Gradient AOColor;
-        [SerializeField] private Gradient mainlightingColor;
-        [SerializeField] private Gradient skyboxColor;
 
         [Header("Properties")]
         [SerializeField] private float starTime = 8; //Hours
         [SerializeField] private float speed; //finishing a day speed
         [SerializeField] private float cloudSpeed;
-        [SerializeField] private Material skyboxMat;
-        [SerializeField] private Light[] mainLights;
 
         [Space(10)]
         [SerializeField] private bool stop;
@@ -66,10 +62,7 @@ namespace Game.Runtimes.Weather
 
             UpdateTimeOfDay();
 
-            UpdateMainLight();
-            UpdateSkyBox();
             UpdateAO();
-            UpdateCloud();
             HandlingEvent();
             InitDayTimeType();
         }
@@ -86,30 +79,9 @@ namespace Game.Runtimes.Weather
             staticTimeOfDay = currentTimeOfDay;
         }
 
-        private void UpdateMainLight()
-        {
-            foreach (var light in mainLights)
-            {
-                light.color = mainlightingColor.Evaluate(currentTimeOfDay / 24);
-            }
-        }
-
-        private void UpdateSkyBox()
-        {
-            skyboxMat.SetColor("_Tint", skyboxColor.Evaluate(currentTimeOfDay / 24));
-        }
-        
         private void UpdateAO()
         {
             RenderSettings.ambientLight = AOColor.Evaluate(currentTimeOfDay / 24);
-        }
-
-        private void UpdateCloud()
-        {
-            cloudRotation += Time.deltaTime * speed;
-            if(cloudRotation >= 360) cloudRotation = 0;
-
-            skyboxMat.SetFloat("_Rotation", cloudRotation);
         }
 
         private void HandlingEvent()

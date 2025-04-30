@@ -58,9 +58,9 @@ Material:
     m_Ints: []
     m_Floats:
     - _Exposure: 1
-    - _Rotation: 4.0405354
+    - _Rotation: 216.55511
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Tint: {r: 0.6847817, g: 0.6851678, b: 0.68595463, a: 1}
+    - _Tint: {r: 0, g: 0.060136862, b: 0.16981131, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
