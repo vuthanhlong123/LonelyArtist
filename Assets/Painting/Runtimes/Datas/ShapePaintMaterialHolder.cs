@@ -30,6 +30,7 @@ namespace LA.Painting.Data
         public bool useWireWidth;
         public bool useSide;
         public bool useRadius;
+        public bool useLineWidth;
     }
 }
 

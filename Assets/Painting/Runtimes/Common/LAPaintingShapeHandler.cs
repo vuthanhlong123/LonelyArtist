@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.EventSystems;
+using static Unity.VisualScripting.Member;
 
 namespace LA.Painting.Common
 {
@@ -60,12 +62,31 @@ namespace LA.Painting.Common
                     if (currentPos == hit.textureCoord) return;
 
                     currentPos = hit.textureCoord;
+                 
 
                     Vector2 shapePos = Vector2.Lerp(startPos, currentPos, 0.5f);
                     paintMaterial.SetVector("_BrushPosition", shapePos);
 
                     Vector2 shapeScale = new Vector2(Mathf.Abs(currentPos.x - startPos.x), Mathf.Abs(currentPos.y - startPos.y));
                     paintMaterial.SetVector("_BrushSize", shapeScale);
+
+                    float distance = Vector2.Distance(startPos, currentPos);
+                    if(paintMaterial.HasFloat("_LineDistance"))
+                    {
+                        paintMaterial.SetFloat("_LineDistance", distance);
+                    }
+
+                    Vector2 v1 = new Vector2(0,1);
+                    Vector2 v2 = currentPos - startPos;
+                    v2.y = -v2.y;
+
+                    float angle = Vector2.Angle(v1, v2);
+                    if(v2.x>0)
+                    {
+                        angle = -angle;
+                    }
+
+                    paintMaterial.SetFloat("_Rotation", -angle);
                 }
             }
 
@@ -84,6 +105,7 @@ namespace LA.Painting.Common
         {
             Vector2 shapeScale = new Vector2(0, 0);
             paintMaterial.SetVector("_BrushSize", shapeScale);
+            paintMaterial.SetFloat("_LineDistance", 0);
         }
 
         #region Painting Brush Updatable
@@ -121,6 +143,12 @@ namespace LA.Painting.Common
             if (paintMaterial.HasFloat("_Radius"))
                 paintMaterial.SetFloat("_Radius", radius);
         }
+
+        public void UpdateShapeLineWidth(float lineWidth)
+        {
+            if (paintMaterial.HasFloat("_LineWidth"))
+                paintMaterial.SetFloat("_LineWidth", lineWidth);
+        }
         #endregion
 
         private bool IsMouseOverUI()
@@ -135,6 +163,7 @@ namespace LA.Painting.Common
             brushPaintUI.OnSubmitChangedWireWidth += BrushPaintUI_OnSubmitChangedWireWidth;
             brushPaintUI.OnSubmitChangedSide += BrushPaintUI_OnSubmitChangedSide;
             brushPaintUI.OnSubmitChangedBoundRadius += BrushPaintUI_OnSubmitChangedBoundRadius;
+            brushPaintUI.OnSubmitChangedLineWidth += BrushPaintUI_OnSubmitChangedLineWidth;
         }
 
         private void BrushPaintUI_OnSubmitChangedBoundRadius(float radius)
@@ -157,6 +186,11 @@ namespace LA.Painting.Common
             UpdateShapeOpacity(opacity);
         }
 
+        private void BrushPaintUI_OnSubmitChangedLineWidth(float lineWidth)
+        {
+            UpdateShapeLineWidth(lineWidth/10);
+        }
+
         private void BrushPaintUI_OnSubmitChangedShapePattern(Texture2D pattern, Material paintMat)
         {
             paintMaterial = paintMat;
@@ -174,6 +208,7 @@ namespace LA.Painting.Common
             brushPaintUI.OnSubmitChangedWireWidth -= BrushPaintUI_OnSubmitChangedWireWidth;
             brushPaintUI.OnSubmitChangedSide -= BrushPaintUI_OnSubmitChangedSide;
             brushPaintUI.OnSubmitChangedBoundRadius -= BrushPaintUI_OnSubmitChangedBoundRadius;
+            brushPaintUI.OnSubmitChangedLineWidth -= BrushPaintUI_OnSubmitChangedLineWidth;
         }
     }
 }

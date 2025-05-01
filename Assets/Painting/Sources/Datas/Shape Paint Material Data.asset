@@ -19,21 +19,32 @@ MonoBehaviour:
     useWireWidth: 0
     useSide: 0
     useRadius: 0
+    useLineWidth: 0
   - id: 1
     material: {fileID: 2100000, guid: a48506c7a53a16d44994d88258402943, type: 2}
     useOpacity: 1
     useWireWidth: 1
     useSide: 0
     useRadius: 1
+    useLineWidth: 0
   - id: 2
     material: {fileID: 2100000, guid: de4dcd36e11d4f34584f89ccc087d030, type: 2}
     useOpacity: 1
     useWireWidth: 1
     useSide: 0
     useRadius: 0
+    useLineWidth: 0
   - id: 3
     material: {fileID: 2100000, guid: 7d07774446593924aa4b4e84a8b37978, type: 2}
     useOpacity: 1
     useWireWidth: 1
     useSide: 1
     useRadius: 1
+    useLineWidth: 0
+  - id: 4
+    material: {fileID: 2100000, guid: dd1c906a54387554c94b7b6363e2b0df, type: 2}
+    useOpacity: 1
+    useWireWidth: 1
+    useSide: 0
+    useRadius: 1
+    useLineWidth: 1
