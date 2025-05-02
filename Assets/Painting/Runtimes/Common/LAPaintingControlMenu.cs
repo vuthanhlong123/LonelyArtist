@@ -6,7 +6,10 @@ namespace LA.Painting.Common
     public enum PaintingControlType
     {
         Nothing,
-        Undo
+        Undo,
+        Saving,
+        Libary,
+        NewPaint
     }
 
     public class LAPaintingControlMenu : MonoBehaviour

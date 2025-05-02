@@ -10,7 +10,7 @@ namespace Game.Runtimes.Weather
         [SerializeField] private AnimationCurve curveValue;
         private void Update()
         {
-            float value = curveValue.Evaluate(WeatherController.staticTimeOfDay / 24);
+            float value = curveValue.Evaluate(DayTimeController.staticTimeOfDay / 24);
             if(material.HasFloat(propertiesName))
             {
                 material.SetFloat(propertiesName, value);

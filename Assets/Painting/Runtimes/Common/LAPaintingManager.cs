@@ -58,6 +58,11 @@ namespace LA.Painting.Common
             SaveState();
         }
 
+        public void NewPaint()
+        {
+            Graphics.Blit(baseTexture, renderTexture);
+        }
+
         public void SaveState()
         {
             dataManager.SavePaintingState(renderTexture);

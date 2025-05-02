@@ -52,8 +52,7 @@ namespace LA.Painting.Common
                 if (Physics.Raycast(ray, out RaycastHit hit, 100, paintLayer))
                 {
                     if (currentPos == hit.textureCoord) return;
-                    direction = hit.textureCoord - currentPos;
-                    HandlePaintLine(direction);
+                    //HandlePaintLine(currentPos, hit.textureCoord);
                     currentPos = hit.textureCoord;
 
                     paintMaterial.SetVector("_BrushPosition", hit.textureCoord);
@@ -82,17 +81,29 @@ namespace LA.Painting.Common
             }
         }
 
-        private void HandlePaintLine(Vector2 brushDirection)
+        private void HandlePaintLine(Vector2 starPos, Vector2 targetPos)
         {
 
-            Vector3 direction = new Vector3(brushDirection.x, 0, brushDirection.y);
+            Vector2 v1 = new Vector2(0, 1);
+            Vector2 v2 = targetPos - starPos;
+            v2.y = -v2.y;
+
+            float angle = Vector2.Angle(v1, v2);
+            if (v2.x > 0)
+            {
+                angle = -angle;
+            }
+
+            paintMaterial.SetFloat("_Rotation", -angle);
+
+            /*Vector3 direction = new Vector3(brushDirection.x, 0, brushDirection.y);
             // Create a quaternion from the direction vector
             Quaternion rotation = Quaternion.LookRotation(direction);
 
             // Convert the quaternion to Euler angles
             Vector3 eulerAngles = rotation.eulerAngles;
 
-            UpdateBrushAngleNormalize(eulerAngles.y + 90);
+            UpdateBrushAngleNormalize(eulerAngles.y + 90);*/
         }
 
         #region Painting Brush Updatable

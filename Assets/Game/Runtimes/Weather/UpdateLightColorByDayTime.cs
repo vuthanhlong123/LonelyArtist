@@ -9,7 +9,7 @@ namespace Game.Runtimes.Weather
 
         private void Update()
         {
-            Color color = gradient.Evaluate(WeatherController.staticTimeOfDay / 24);
+            Color color = gradient.Evaluate(DayTimeController.staticTimeOfDay / 24);
             targetLight.color = color;
         }
     }

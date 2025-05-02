@@ -10,7 +10,7 @@ namespace Game.Runtimes.Weather
 
         private void Update()
         {
-            if (WeatherController.staticTimeOfDay >= timeToDisableLight.x && WeatherController.staticTimeOfDay <= timeToDisableLight.y)
+            if (DayTimeController.staticTimeOfDay >= timeToDisableLight.x && DayTimeController.staticTimeOfDay <= timeToDisableLight.y)
             {
                 if (target.activeSelf != value)
                     target.SetActive(value);

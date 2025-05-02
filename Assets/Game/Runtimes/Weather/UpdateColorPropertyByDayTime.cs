@@ -13,7 +13,7 @@ namespace Game.Runtimes.Weather
         {
             if(material.HasColor(propertyName))
             {
-                material.SetColor(propertyName, color.Evaluate(WeatherController.staticTimeOfDay / 24)* intensity);
+                material.SetColor(propertyName, color.Evaluate(DayTimeController.staticTimeOfDay / 24)* intensity);
             }
         } 
     }

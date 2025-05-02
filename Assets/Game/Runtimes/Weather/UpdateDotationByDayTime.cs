@@ -10,7 +10,7 @@ namespace Game.Runtimes.Weather
 
         private void Update()
         {
-            Vector3 euler = Vector3.Lerp(start, end, WeatherController.staticTimeOfDay/24);
+            Vector3 euler = Vector3.Lerp(start, end, DayTimeController.staticTimeOfDay/24);
             targetTrans.localEulerAngles = euler;
         }
     }

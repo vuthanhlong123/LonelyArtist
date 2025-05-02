@@ -51,7 +51,7 @@ namespace LA.Painting.Common
         private void Init()
         {
             OnBrushSizeChanged(slider_BrushSize);
-            OnBrushRotationChanged(slider_BrushRotation);
+            //OnBrushRotationChanged(slider_BrushRotation);
             OnBrushOpacityChanged(slider_BrushOpacity);
 
             container_BrushControl.SetActive(false);
@@ -64,7 +64,7 @@ namespace LA.Painting.Common
         {
             button_BrushControlBoard.onClick.AddListener(OnButtonBrushControlBoardClicked);
             slider_BrushSize.onValueChanged.AddListener(delegate { OnBrushSizeChanged(slider_BrushSize); });
-            slider_BrushRotation.onValueChanged.AddListener(delegate { OnBrushRotationChanged(slider_BrushRotation); });
+            //slider_BrushRotation.onValueChanged.AddListener(delegate { OnBrushRotationChanged(slider_BrushRotation); });
             slider_BrushOpacity.onValueChanged.AddListener(delegate { OnBrushOpacityChanged(slider_BrushOpacity); });
         }
 

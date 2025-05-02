@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace LA.Common.UI.Runtime
 {
-    public class CustomDropdown : MonoBehaviour, IPointerClickHandler
+    public class CustomDropdown : MonoBehaviour
     {
         [SerializeField] private Image image_Selected;
 
@@ -13,14 +13,32 @@ namespace LA.Common.UI.Runtime
 
         [SerializeField] private CustomDropdownScroll dropdownScroll;
 
+        [SerializeField] private Button dropdownButton;
+
         //Events
         public event UnityAction<CustomDropdownItem> OnSelectionChange;
         public event UnityAction OnDropdownClick;
+
 
         private void Start()
         {
             CreateDropdownItems();
             ApplyDefaultState();
+            if(dropdownButton)
+            {
+                dropdownButton.onClick.AddListener(OnButtonDropDownClicked);
+            }
+        }
+
+        private void OnButtonDropDownClicked()
+        {
+            if (dropdownScroll != null)
+            {
+                if (!dropdownScroll.gameObject.activeSelf)
+                    dropdownScroll.Show();
+                else dropdownScroll.Hide();
+                OnDropdownClick?.Invoke();
+            }
         }
 
         private void CreateDropdownItems()
@@ -42,17 +60,6 @@ namespace LA.Common.UI.Runtime
         private void ApplyDefaultState()
         {
             if (dropdownScroll != null) dropdownScroll.Hide();
-        }
-
-        public void OnPointerClick(PointerEventData eventData)
-        {
-            if (dropdownScroll != null)
-            {
-                if(!dropdownScroll.gameObject.activeSelf)
-                    dropdownScroll.Show();
-                else dropdownScroll.Hide();
-                OnDropdownClick?.Invoke();
-            }
         }
 
         public void Show()
