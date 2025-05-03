@@ -68,7 +68,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AO: 0.022829525
+    - _AO: 0.9928518
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _Alpha_Strength: 1

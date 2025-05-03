@@ -11,7 +11,14 @@ namespace LA.Painting.Common
 
         [SerializeField] private List<Texture2D> paintedTexture = new List<Texture2D>();
 
-        public void SavePaintingState(RenderTexture renderTexture)
+        private RenderTexture renderTexture;
+
+        public void StarUp(RenderTexture renderTexture)
+        {
+            this.renderTexture = renderTexture;
+        }
+
+        public void SavePaintingState()
         {
             Texture2D newTex = CustomRenderUtility.RenderTexturetoTexture2D(renderTexture);
             paintedTexture.Add(newTex);
@@ -22,7 +29,7 @@ namespace LA.Painting.Common
             }
         }
 
-        public void HandlingUndo(RenderTexture renderTexture)
+        public void HandlingUndo()
         {
             if(paintedTexture.Count > 1)
             {
@@ -31,6 +38,13 @@ namespace LA.Painting.Common
                 paintedTexture.RemoveAt(paintedTexture.Count - 1);
             }
         }
+
+        public void ResetPaintData()
+        {
+            paintedTexture.Clear();
+        }
+
+        public int PaintedStateCount => paintedTexture.Count;
 
        /* public void SaveTexture(int index)
         {

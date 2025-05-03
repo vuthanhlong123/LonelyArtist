@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Threading.Tasks;
+using UnityEngine;
 
 namespace LA.Painting.Common
 {
@@ -35,6 +36,11 @@ namespace LA.Painting.Common
 
         public LAPaintingShapeHandler PaintingShapeHandler => paintingShapeHandler;
 
+        [Header("Controls")]
+        [SerializeField] private LAPaintControl_Undo undoControl;
+        [SerializeField] private LAPaintControl_NewPaint newPaintControl;
+        [SerializeField] private LAPaintControl_Saving savingControl;
+
         void Start()
         {
             Init();
@@ -55,17 +61,20 @@ namespace LA.Painting.Common
 
             brushPaintHandler.StartUp(renderTexture);
             paintingShapeHandler.StartUp(renderTexture);
+            dataManager.StarUp(renderTexture);
             SaveState();
         }
 
         public void NewPaint()
         {
             Graphics.Blit(baseTexture, renderTexture);
+            dataManager.ResetPaintData();
+            SaveState();
         }
 
         public void SaveState()
         {
-            dataManager.SavePaintingState(renderTexture);
+            dataManager.SavePaintingState();
         }
 
         private void OnEnable()
@@ -77,11 +86,13 @@ namespace LA.Painting.Common
 
         //Painting control activation
         #region Handling painting control (like undom ...)
-        private void ControlMenu_OnSubmitControlRequest(PaintingControlType type)
+        private async void ControlMenu_OnSubmitControlRequest(PaintingControlType type)
         {
             switch (type)
             {
-                case PaintingControlType.Undo: dataManager.HandlingUndo(renderTexture); break;
+                case PaintingControlType.Undo: undoControl.Execute(); break;
+                case PaintingControlType.NewPaint: await newPaintControl.Execute(); break;
+                case PaintingControlType.Saving: savingControl.Execute(); break;
             }
         }
         #endregion
