@@ -39,16 +39,9 @@ namespace LA.Painting.Common
         {
             Texture2D savedTexture = CustomRenderUtility.RenderTexturetoTexture2D(paintManager.GetRenderTex);
 
-            // Chuyển RenderTexture thành Texture2D
-           /* RenderTexture.active = renderTexturePreview;
-            Texture2D savedTexture = new Texture2D(renderTexturePreview.width, renderTexturePreview.height, TextureFormat.ARGB32, false);
-            savedTexture.ReadPixels(new Rect(0, 0, renderTexturePreview.width, renderTexturePreview.height), 0, 0);
-            savedTexture.Apply();
-            RenderTexture.active = null;*/
-
             // Lưu Texture thành PNG
             byte[] bytes = savedTexture.EncodeToPNG();
-            string saveFolderPath = Application.persistentDataPath + "/PaintingSaved";
+            string saveFolderPath = UnityExtension.SavePaintFolderPath; 
             if (!Directory.Exists(saveFolderPath))
             {
                 Directory.CreateDirectory(saveFolderPath);
@@ -64,6 +57,7 @@ namespace LA.Painting.Common
             System.IO.File.WriteAllBytes(saveFilePath, bytes);
 
             Debug.Log("Texture saved at: " + saveFilePath);
+            statusPopup.Show("Save successful");
             return true;
         }
 

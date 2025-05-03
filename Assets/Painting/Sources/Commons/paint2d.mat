@@ -29,7 +29,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BrushTex:
-        m_Texture: {fileID: 2800000, guid: d86e9cb10fb60344e90eb9d4453713c2, type: 3}
+        m_Texture: {fileID: 2800000, guid: 220395c6b6c560c40bd920431b98ad38, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -62,7 +62,7 @@ Material:
     - _AlphaToMask: 1
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
-    - _BrushSize: 0.10522239
+    - _BrushSize: 0.035846986
     - _CastShadows: 0
     - _Cull: 2
     - _DstBlend: 0
@@ -79,8 +79,8 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
-    - _BrushColor: {r: 0.7731411, g: 0.08695884, b: 0.08695884, a: 1}
-    - _BrushPosition: {r: 0.33178613, g: 0.53030986, b: 0, a: 0}
+    - _BrushColor: {r: 0.008242333, g: 0.1204986, b: 0.79443544, a: 1}
+    - _BrushPosition: {r: 0.0034957845, g: 0.41982216, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &1936790325793934901

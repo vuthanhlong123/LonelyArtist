@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using LA.Painting.PaintLibary;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace LA.Painting.Common
@@ -40,6 +41,7 @@ namespace LA.Painting.Common
         [SerializeField] private LAPaintControl_Undo undoControl;
         [SerializeField] private LAPaintControl_NewPaint newPaintControl;
         [SerializeField] private LAPaintControl_Saving savingControl;
+        [SerializeField] private LAPaintControl_Libary paintLibaryControl;
 
         void Start()
         {
@@ -93,6 +95,7 @@ namespace LA.Painting.Common
                 case PaintingControlType.Undo: undoControl.Execute(); break;
                 case PaintingControlType.NewPaint: await newPaintControl.Execute(); break;
                 case PaintingControlType.Saving: savingControl.Execute(); break;
+                case PaintingControlType.Libary: paintLibaryControl.Execute(); break;
             }
         }
         #endregion
