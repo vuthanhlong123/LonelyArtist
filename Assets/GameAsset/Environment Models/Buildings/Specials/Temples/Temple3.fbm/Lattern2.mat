@@ -123,7 +123,7 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _Emis: 1
-    - _EmisStrength: 1
+    - _EmisStrength: 0
     - _EnvironmentReflections: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5

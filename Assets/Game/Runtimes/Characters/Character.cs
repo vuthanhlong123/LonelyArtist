@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Game.Runtimes.Characters
 {
     public class Character : UnitCharacter
     {
         [SerializeField] private bool isControllable;
+        [SerializeField] private bool isBusy;
 
         [Header("Memebers")]
         [SerializeField] private CharacterMotion motion;
@@ -13,13 +15,18 @@ namespace Game.Runtimes.Characters
 
         [SerializeField] private CharacterInputData _inputData;
 
-        public bool IsControllable { get { return isControllable; } set { isControllable = value; } }
+        public bool IsControllable { get { return isControllable; } set { isControllable = value;  } }
+
+        public bool IsBusy { get { return isBusy; } set { isBusy = value; CharacterBusyStateChanged?.Invoke(isBusy); } }
 
         public CharacterMotion Motion => motion;
         public CharacterDriver Driver => driver;
         public CharacterAnimation Animation => _animation;
 
         public CharacterInputData InputData => _inputData;
+
+        //Event
+        public event UnityAction<bool> CharacterBusyStateChanged;
 
         protected override void Awake()
         {
