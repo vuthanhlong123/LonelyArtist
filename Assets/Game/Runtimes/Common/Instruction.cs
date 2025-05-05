@@ -13,6 +13,7 @@ namespace Game.Runtimes.Commons
 
             return Task.CompletedTask;
         }
+
         public virtual Task Run()
         {
             return Task.CompletedTask;

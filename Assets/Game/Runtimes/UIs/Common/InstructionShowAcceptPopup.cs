@@ -12,6 +12,12 @@ namespace Game.Runtimes.UIs.Common
         [SerializeField] private bool waitForCompleted;
         [SerializeField] private bool endTriggerOperationWithBoolean;
 
+        [Header("Action With Result Tree")]
+        [SerializeField] private Instruction[] actionListTrue;
+
+        [Header("Action With Result False")]
+        [SerializeField] private Instruction[] actionListFalse;
+
         private UIAcceptPopup m_Popup;
         public override async Task Run()
         {
@@ -36,7 +42,36 @@ namespace Game.Runtimes.UIs.Common
                await Task.Yield();
             }
 
+            if(uiOperator.result)
+            {
+                RunActionTrue();
+            }
+            else
+            {
+                RunActionFalse();
+            }
+
             if (uiOperator.result == endTriggerOperationWithBoolean) ForceEndTriggerHandling();
+        }
+
+        private async void RunActionTrue()
+        {
+            if (actionListTrue == null) return;
+
+            foreach (Instruction instruction in actionListTrue)
+            {
+                await instruction.Run();
+            }
+        }
+
+        private async void RunActionFalse()
+        {
+            if (actionListFalse == null) return;
+
+            foreach (Instruction instruction in actionListFalse)
+            {
+                await instruction.Run();
+            }
         }
     }
 }

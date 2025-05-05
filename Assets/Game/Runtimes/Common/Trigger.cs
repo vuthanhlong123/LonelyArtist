@@ -5,7 +5,17 @@ namespace Game.Runtimes.Commons
 {
     public class Trigger : MonoBehaviour
     {
+        [SerializeField] private bool playOnStart;
+
         [SerializeField] private Instruction[] instructions;
+
+        private void Start()
+        {
+            if (playOnStart)
+            {
+                Run();
+            }
+        }
 
         public async void Run()
         {
