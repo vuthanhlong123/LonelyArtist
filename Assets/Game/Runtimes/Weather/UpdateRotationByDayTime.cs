@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Game.Runtimes.Weather
 {
-    public class UpdateDotationByDayTime : MonoBehaviour
+    public class UpdateRotationByDayTime : MonoBehaviour
     {
         [SerializeField] private Transform targetTrans;
         [SerializeField] private Vector3 start;

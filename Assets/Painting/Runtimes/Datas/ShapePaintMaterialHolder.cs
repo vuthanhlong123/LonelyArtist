@@ -31,6 +31,7 @@ namespace LA.Painting.Data
         public bool useSide;
         public bool useRadius;
         public bool useLineWidth;
+        public bool useRotation;
     }
 }
 

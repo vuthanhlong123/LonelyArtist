@@ -74,6 +74,13 @@ namespace LA.Painting.Common
             SaveState();
         }
 
+        public void ContinuePaintTexture(Texture2D texture)
+        {
+            Graphics.Blit(texture, renderTexture);
+            dataManager.ResetPaintData();
+            SaveState();
+        }
+
         public void SaveState()
         {
             dataManager.SavePaintingState();

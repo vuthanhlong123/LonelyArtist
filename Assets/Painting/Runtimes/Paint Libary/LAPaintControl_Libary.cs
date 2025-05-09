@@ -1,5 +1,6 @@
 using Game.Runtimes.Commons;
 using Game.Runtimes.UIs.Common;
+using LA.Painting.Common;
 using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -8,6 +9,7 @@ namespace LA.Painting.PaintLibary
 {
     public class LAPaintControl_Libary : MonoBehaviour
     {
+        [SerializeField] private LAPaintingManager paintingManager;
         [SerializeField] private LAPaintLibaryUI libaryUI;
         [SerializeField] private GameObject acceptPopupPrefab;
 
@@ -82,6 +84,23 @@ namespace LA.Painting.PaintLibary
 
                 Execute();
             }
+        }
+
+        public void ContinuePaintTexture(int id)
+        {
+            string path = files[id];
+            if (!File.Exists(path)) return;
+
+            byte[] bytes = File.ReadAllBytes(path);
+
+            Texture2D texture = new Texture2D(1024, 1024);
+
+            if (texture.LoadImage(bytes))
+            {
+                paintingManager.ContinuePaintTexture(texture);
+            }
+
+            libaryUI.Show(false);
         }
     }
 }

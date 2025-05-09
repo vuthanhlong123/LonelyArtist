@@ -72,7 +72,7 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
-    - _BrushColor: {r: 0, g: 0, b: 0, a: 0}
+    - _BrushColor: {r: 0, g: 0, b: 0, a: 1}
     - _BrushPosition: {r: 0.49995232, g: 0.2759859, b: 0, a: 0}
     - _BrushSize: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

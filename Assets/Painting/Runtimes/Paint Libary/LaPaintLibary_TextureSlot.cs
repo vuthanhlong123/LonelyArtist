@@ -14,18 +14,26 @@ namespace LA.Painting.PaintLibary
         [SerializeField] private float targetScale;
 
         [SerializeField] private Button button_Drop;
+        [SerializeField] private Button button_ContinuePaint;
         [SerializeField] private float startShowAtLinear;
 
         public static event UnityAction<int> SubmitDropPaint;
+        public static event UnityAction<int> SubmitContinuePaint;
 
         private void Start()
         {
             button_Drop.onClick.AddListener(OnButtonDropClicked);
+            button_ContinuePaint.onClick.AddListener(OnButtonContinuePaintClicked);
         }
 
         private void OnButtonDropClicked()
         {
             SubmitDropPaint?.Invoke(ID);
+        }
+
+        private void OnButtonContinuePaintClicked()
+        {
+            SubmitContinuePaint?.Invoke(ID);
         }
 
         public void SetValue(Texture2D texture, int id)
@@ -65,12 +73,22 @@ namespace LA.Painting.PaintLibary
                 {
                     button_Drop.gameObject.SetActive(true);
                 }
+
+                if (!button_ContinuePaint.gameObject.activeSelf)
+                {
+                    button_ContinuePaint.gameObject.SetActive(true);
+                }
             }
             else
             {
                 if (button_Drop.gameObject.activeSelf)
                 {
                     button_Drop.gameObject.SetActive(false);
+                }
+
+                if (button_ContinuePaint.gameObject.activeSelf)
+                {
+                    button_ContinuePaint.gameObject.SetActive(false);
                 }
             }
 

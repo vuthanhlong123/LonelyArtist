@@ -1,7 +1,5 @@
-﻿using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using static Unity.VisualScripting.Member;
 
 namespace LA.Painting.Common
 {
@@ -149,6 +147,13 @@ namespace LA.Painting.Common
             if (paintMaterial.HasFloat("_LineWidth"))
                 paintMaterial.SetFloat("_LineWidth", lineWidth);
         }
+
+        //Rotation 
+        public void UpdateShapeRotation(float rotation)
+        {
+            if (paintMaterial.HasFloat("_StaticRotation"))
+                paintMaterial.SetFloat("_StaticRotation", -rotation);
+        }
         #endregion
 
         private bool IsMouseOverUI()
@@ -164,6 +169,7 @@ namespace LA.Painting.Common
             brushPaintUI.OnSubmitChangedSide += BrushPaintUI_OnSubmitChangedSide;
             brushPaintUI.OnSubmitChangedBoundRadius += BrushPaintUI_OnSubmitChangedBoundRadius;
             brushPaintUI.OnSubmitChangedLineWidth += BrushPaintUI_OnSubmitChangedLineWidth;
+            brushPaintUI.OnSubmitChangedRotation += BrushPaintUI_OnSubmitChangedRotation;
         }
 
         private void BrushPaintUI_OnSubmitChangedBoundRadius(float radius)
@@ -191,6 +197,11 @@ namespace LA.Painting.Common
             UpdateShapeLineWidth(lineWidth/10);
         }
 
+        private void BrushPaintUI_OnSubmitChangedRotation(float rotation)
+        {
+            UpdateShapeRotation(rotation);
+        }
+
         private void BrushPaintUI_OnSubmitChangedShapePattern(Texture2D pattern, Material paintMat)
         {
             paintMaterial = paintMat;
@@ -209,6 +220,7 @@ namespace LA.Painting.Common
             brushPaintUI.OnSubmitChangedSide -= BrushPaintUI_OnSubmitChangedSide;
             brushPaintUI.OnSubmitChangedBoundRadius -= BrushPaintUI_OnSubmitChangedBoundRadius;
             brushPaintUI.OnSubmitChangedLineWidth -= BrushPaintUI_OnSubmitChangedLineWidth;
+            brushPaintUI.OnSubmitChangedRotation -= BrushPaintUI_OnSubmitChangedRotation;
         }
     }
 }

@@ -38,11 +38,6 @@ namespace LA.Painting.PaintLibary
                     slots[i].UpdateSize(rect_SlotContainer);
                 }
             }
-
-            /*foreach (var slot in slots)
-            {
-                slot.UpdateSize(rect_SlotContainer);
-            }*/
         }
 
         public void ClearLibaryUI()
@@ -77,6 +72,7 @@ namespace LA.Painting.PaintLibary
         private void OnEnable()
         {
             LaPaintLibary_TextureSlot.SubmitDropPaint += LaPaintLibary_TextureSlot_SubmitDropPaint;
+            LaPaintLibary_TextureSlot.SubmitContinuePaint += LaPaintLibary_TextureSlot_SubmitContinuePaint;
         }
 
         private void LaPaintLibary_TextureSlot_SubmitDropPaint(int slotId)
@@ -84,9 +80,15 @@ namespace LA.Painting.PaintLibary
             paintLibaryControl.DropTexture(slotId);
         }
 
+        private void LaPaintLibary_TextureSlot_SubmitContinuePaint(int sloyId)
+        {
+            paintLibaryControl.ContinuePaintTexture(sloyId);
+        }
+
         private void OnDisable()
         {
             LaPaintLibary_TextureSlot.SubmitDropPaint -= LaPaintLibary_TextureSlot_SubmitDropPaint;
+            LaPaintLibary_TextureSlot.SubmitContinuePaint -= LaPaintLibary_TextureSlot_SubmitContinuePaint;
         }
     }
 }

@@ -47,6 +47,11 @@ namespace LA.Painting.Common
         [SerializeField] private Slider slider_ShapeLineWidth;
         [SerializeField] private TextMeshProUGUI text_ShapeLineWidthValue;
 
+        [Header("Shape Rotation")]
+        [SerializeField] private GameObject container_ShapeRotation;
+        [SerializeField] private Slider slider_ShapeRotation;
+        [SerializeField] private TextMeshProUGUI text_ShapeRotationValue;
+
         //Events
         public event UnityAction<Texture2D, Material> OnSubmitChangedShapePattern;
         public event UnityAction<float> OnSubmitChangedShapeOpacity;
@@ -54,6 +59,7 @@ namespace LA.Painting.Common
         public event UnityAction<float> OnSubmitChangedSide;
         public event UnityAction<float> OnSubmitChangedBoundRadius;
         public event UnityAction<float> OnSubmitChangedLineWidth;
+        public event UnityAction<float> OnSubmitChangedRotation;
 
         private int currentSelectedId;
 
@@ -72,6 +78,7 @@ namespace LA.Painting.Common
             OnShapeSideChanged(slider_ShapeSide);
             OnShapeBoundRadiusChanged(slider_ShapeBoundRadius);
             OnShapeLineWidthChanged(slider_ShapeLineWidth);
+            OnShapeRotationChanged(slider_ShapeRotation);
 
             container_ShapePattern.SetActive(false);
             container_ShapeOpacity.SetActive(false);
@@ -79,6 +86,7 @@ namespace LA.Painting.Common
             container_ShapeSide.SetActive(false);
             container_ShapeBoundRadius.SetActive(false);
             container_ShapeLineWidth.SetActive(false);
+            container_ShapeRotation.SetActive(false);
 
             text_ButtonText.text = "+";
         }
@@ -91,6 +99,7 @@ namespace LA.Painting.Common
             slider_ShapeSide.onValueChanged.AddListener(delegate { OnShapeSideChanged(slider_ShapeSide); });
             slider_ShapeBoundRadius.onValueChanged.AddListener(delegate { OnShapeBoundRadiusChanged(slider_ShapeBoundRadius); });
             slider_ShapeLineWidth.onValueChanged.AddListener(delegate { OnShapeLineWidthChanged(slider_ShapeLineWidth); });
+            slider_ShapeRotation.onValueChanged.AddListener(delegate { OnShapeRotationChanged(slider_ShapeRotation); });
         }
 
         private void OnButtonBrushControlBoardClicked()
@@ -105,6 +114,7 @@ namespace LA.Painting.Common
                 container_ShapeSide.SetActive(false);
                 container_ShapeBoundRadius.SetActive(false);
                 container_ShapeLineWidth.SetActive(false);
+                container_ShapeRotation.SetActive(false);
             }
 
             text_ButtonText.text = container_ShapePattern.activeSelf ? "-" : "+";
@@ -125,6 +135,8 @@ namespace LA.Painting.Common
             container_ShapeSide.SetActive(paintMaterialData.useSide);
             container_ShapeBoundRadius.SetActive(paintMaterialData.useRadius);
             container_ShapeLineWidth.SetActive(paintMaterialData.useLineWidth);
+            container_ShapeRotation.SetActive(paintMaterialData.useRotation);
+
         }
 
         private void InitDefaultBrush()
@@ -194,6 +206,12 @@ namespace LA.Painting.Common
             OnSubmitChangedLineWidth?.Invoke(slider.value);
         }
 
+        private void OnShapeRotationChanged(Slider slider)
+        {
+            text_ShapeRotationValue.text = (Math.Round(slider.value, 1)).ToString();
+            OnSubmitChangedRotation?.Invoke(slider.value);
+        }
+
         private void OnEnable()
         {
             brushOptions.OnDropdownClick += BrushOptions_OnDropdownClick;
@@ -224,6 +242,7 @@ namespace LA.Painting.Common
             OnShapeSideChanged(slider_ShapeSide);
             OnShapeBoundRadiusChanged(slider_ShapeBoundRadius);
             OnShapeLineWidthChanged(slider_ShapeBoundRadius);
+            OnShapeRotationChanged(slider_ShapeRotation);
         }
 
         private void OnDisable()
