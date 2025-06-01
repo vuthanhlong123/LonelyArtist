@@ -74,20 +74,20 @@ Material:
     - _Opacity: 1
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Radius: 0.49091187
+    - _Radius: 0
     - _ReceiveShadows: 0
-    - _Rotation: 6.28
-    - _Side: 4
+    - _Rotation: 51.727303
+    - _Side: 3
     - _SrcBlend: 1
     - _Surface: 0
-    - _WireWidth: 0.45391786
+    - _WireWidth: 0.01
     - _WorkflowMode: 1
     - _ZTest: 4
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
     - _BrushColor: {r: 0, g: 0, b: 0, a: 1}
-    - _BrushPosition: {r: 0.62555516, g: 0.7731341, b: 0, a: 0}
-    - _BrushSize: {r: 0.65140355, g: 0.046696723, b: 0, a: 0}
+    - _BrushPosition: {r: 0.26552278, g: 0.5165223, b: 0, a: 0}
+    - _BrushSize: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

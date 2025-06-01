@@ -62,7 +62,7 @@ Material:
     - _AlphaToMask: 1
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
-    - _BrushSize: 0.05263933
+    - _BrushSize: 0.14098383
     - _CastShadows: 0
     - _Cull: 2
     - _DstBlend: 0
@@ -79,8 +79,8 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
-    - _BrushColor: {r: 0.9820237, g: 0.16019177, b: 0.16019177, a: 1}
-    - _BrushPosition: {r: 0.85204923, g: 0.7691064, b: 0, a: 0}
+    - _BrushColor: {r: 0.605665, g: 0.8048046, b: 1, a: 1}
+    - _BrushPosition: {r: 0.32266587, g: 0.57649255, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &1936790325793934901

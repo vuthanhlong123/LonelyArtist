@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedX: 20
   speedY: 15
-  axisValue: {x: -3.257019, y: 0}
-  zoomDistance: 14.090729
+  axisValue: {x: 2.7685547, y: 0}
+  zoomDistance: 15
   zoomSpeed: 1000
   minZoom: 3
   maxZoom: 15
   zoomSmooth: 0.05
   isChange: 0
+  isZoomAvailable: 1

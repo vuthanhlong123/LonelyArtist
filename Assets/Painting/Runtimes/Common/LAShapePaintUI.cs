@@ -241,7 +241,7 @@ namespace LA.Painting.Common
             OnShapeWireWidthChanged(slider_ShapeWireWidth);
             OnShapeSideChanged(slider_ShapeSide);
             OnShapeBoundRadiusChanged(slider_ShapeBoundRadius);
-            OnShapeLineWidthChanged(slider_ShapeBoundRadius);
+            OnShapeLineWidthChanged(slider_ShapeLineWidth);
             OnShapeRotationChanged(slider_ShapeRotation);
         }
 

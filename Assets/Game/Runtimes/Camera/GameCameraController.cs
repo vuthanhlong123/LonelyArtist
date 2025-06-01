@@ -1,3 +1,4 @@
+using Game.Runtimes.Characters;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -7,11 +8,6 @@ namespace Game.Runtimes.Cameras
     {
         [SerializeField] private CameraInputData inputData;
         [SerializeField] private CinemachineOrbitalFollow orbitCamera;
-
-        private void Start()
-        {
-
-        }
 
         private void Update()
         {
@@ -36,6 +32,12 @@ namespace Game.Runtimes.Cameras
 
         private void UpdateCameraDistance()
         {
+            Character main = GameCharacterManager.Instance.GetMainCharacter();
+            if(main)
+            {
+                if (main.IsBusy) return;
+            }
+
             float scrollValue = Input.GetAxis("Mouse ScrollWheel");
 
             inputData.ChangeZoom(inputData.zoomDistance - scrollValue * Time.deltaTime * inputData.zoomSpeed);

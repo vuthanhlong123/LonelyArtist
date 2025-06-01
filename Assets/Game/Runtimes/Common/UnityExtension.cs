@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Game.Runtimes.Commons
 {
@@ -9,6 +10,11 @@ namespace Game.Runtimes.Commons
         public static bool ContainLayer(LayerMask mask, int layer)
         {
             return mask == (mask | (1 << layer));
+        }
+
+        public static bool IsMouseOverUI()
+        {
+            return EventSystem.current.IsPointerOverGameObject();
         }
     }
 }

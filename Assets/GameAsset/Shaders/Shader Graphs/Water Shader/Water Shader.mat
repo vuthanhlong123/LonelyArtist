@@ -68,7 +68,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AO: 0.9878623
+    - _AO: 0.9893037
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _Alpha_Strength: 1
@@ -79,13 +79,13 @@ Material:
     - _Depth: 0.61
     - _Displayment: 0.0015
     - _DstBlend: 10
-    - _Normal_Strength: 0.43
+    - _Normal_Strength: 0.408
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 0
     - _Smothness: 1
     - _SrcBlend: 5
-    - _Strength: 0.648
+    - _Strength: 0.816
     - _Surface: 1
     - _Wave_Displayment_Strength: 1
     - _WorkflowMode: 1
@@ -97,7 +97,7 @@ Material:
     - _Depth_Water_Color: {r: 1, g: 1, b: 1, a: 0}
     - _Main_Normal_Tilling: {r: 20, g: 20, b: 0, a: 0}
     - _Second_Normal_Tilling: {r: 20, g: 20, b: 0, a: 0}
-    - _Shallow_Water_Color: {r: 0.34905648, g: 0.780466, b: 1, a: 1}
+    - _Shallow_Water_Color: {r: 0.25471687, g: 0.74857914, b: 1, a: 1}
     - _Wave_Displayment_Move: {r: 0, g: 0.02, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

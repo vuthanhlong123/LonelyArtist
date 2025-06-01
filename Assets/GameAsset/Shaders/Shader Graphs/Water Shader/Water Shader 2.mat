@@ -68,7 +68,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AO: 0.9878626
+    - _AO: 0.9892999
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _Alpha_Strength: 0.858
@@ -76,8 +76,8 @@ Material:
     - _BlendModePreserveSpecular: 0
     - _CastShadows: 0
     - _Cull: 0
-    - _Depth: -0.06
-    - _Displayment: 0.003
+    - _Depth: 0.1
+    - _Displayment: 0
     - _DstBlend: 10
     - _Normal_Strength: 0.412
     - _QueueControl: 0
@@ -85,9 +85,9 @@ Material:
     - _ReceiveShadows: 0
     - _Smothness: 1
     - _SrcBlend: 5
-    - _Strength: 0.356
+    - _Strength: 0.268
     - _Surface: 1
-    - _Wave_Displayment_Strength: 1
+    - _Wave_Displayment_Strength: 0
     - _WorkflowMode: 1
     - _ZTest: 4
     - _ZWrite: 0

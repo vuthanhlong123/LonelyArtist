@@ -21,12 +21,15 @@ namespace Game.Runtimes.Cameras
 
         public void ChangeZoom(float value)
         {
+            if (!isZoomAvailable) return;
+
             if (value < minZoom) zoomDistance = minZoom;
             else if (value > maxZoom) zoomDistance = maxZoom;
             else zoomDistance = value;
         }
 
         public bool isChange;
+        public bool isZoomAvailable;
     }
 }
 

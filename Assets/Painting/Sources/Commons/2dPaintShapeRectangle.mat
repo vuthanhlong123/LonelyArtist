@@ -63,7 +63,7 @@ Material:
     - _QueueOffset: 0
     - _Radius: 0
     - _ReceiveShadows: 0
-    - _Rotation: 118.89977
+    - _Rotation: 76.717
     - _SrcBlend: 1
     - _Surface: 0
     - _WireWidth: 0.01
@@ -72,8 +72,8 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
-    - _BrushColor: {r: 0, g: 0, b: 0, a: 1}
-    - _BrushPosition: {r: 0.49995232, g: 0.2759859, b: 0, a: 0}
+    - _BrushColor: {r: 0, g: 0, b: 0, a: 0}
+    - _BrushPosition: {r: 0.5113507, g: 0.45505512, b: 0, a: 0}
     - _BrushSize: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
